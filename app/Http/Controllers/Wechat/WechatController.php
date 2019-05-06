@@ -27,32 +27,24 @@ class WechatController extends Controller
         $Event = $obj->Event;//获取时间类型
         if($MsgType=="event"){
             if($Event=="subscribe"){
-
-//                file_put_contents("logs/wx_event_1.log", '123');//存到public日志文件
+                $text="欢迎关注老袁头的微信";
                 //用户关注回复消息
-                echo "<xml>
-                  <ToUserName><![CDATA[".$obj->FromUserName."]]></ToUserName>
-                  <FromUserName><![CDATA[".$obj->ToUserName."]]></FromUserName>
-                  <CreateTime>".time()."</CreateTime>
-                  <MsgType><![CDATA[text]]></MsgType>
-                  <Content><![CDATA[你好]]></Content>
-                </xml>";die;
+                $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                echo $xml;
             }
         }
-        /*elseif($MsgType=="text"){
-            $Content = $obj->Content;//获取文本消息内容
-            if(strpos($Content,"+天气")){
-                //回复天气情况
-                $xml = "<xml>
-                              <ToUserName><![CDATA[$FromUserName]]></ToUserName>
-                              <FromUserName><![CDATA[$ToUserName]]></FromUserName>
-                              <CreateTime>time()</CreateTime>
-                              <MsgType><![CDATA[text]]></MsgType>
-                              <Content><![CDATA[北京]]></Content>
-                            </xml>";//设置xml格式的数据
-                echo $xml;//返回结果
-            }
-        }*/
         
+    }
+
+    //回复文本消息
+    public function ReturnText($FromUserName,$ToUserName,$text){
+        $xml="<xml>
+                  <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
+                  <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
+                  <CreateTime>".time()."</CreateTime>
+                  <MsgType><![CDATA[text]]></MsgType>
+                  <Content><![CDATA[$text]]></Content>
+                </xml>";
+        return $xml;
     }
 }
