@@ -35,9 +35,10 @@ class WechatController extends Controller
               <MsgType><![CDATA[text]]></MsgType>
               <Content><![CDATA[欢迎订阅老袁头的公众号]]></Content>
             <xml>';
-                echo $xml;
+                echo $xml;die;
             }
-        }else if($MsgType=="text"){
+        }
+        /*elseif($MsgType=="text"){
             $Content = $obj->Content;//获取文本消息内容
             if(strpos($Content,"+天气")){
                 //回复天气情况
@@ -50,7 +51,7 @@ class WechatController extends Controller
                             </xml>";//设置xml格式的数据
                 echo $xml;//返回结果
             }
-        }
+        }*/
         
     }
 }
