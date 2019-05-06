@@ -28,8 +28,7 @@ class WechatController extends Controller
         if($MsgType=="event"){
             if($Event=="subscribe"){
                 //用户关注回复消息
-                $xml='
-                    <xml>
+                $xml='<xml>
               <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>
               <FromUserName><![CDATA['.$ToUserName.']]></FromUserName>
               <CreateTime>'.time().'</CreateTime>
