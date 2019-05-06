@@ -95,8 +95,13 @@ class WechatController extends Controller
     }
 
     //获取用户基本信息
-    public function openId(){
-        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+    public function openId($openId){
+        //获取access
+        $access=$this->getAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access&openid=$openId&lang=zh_CN";
+        $count=file_get_contents($url);//流接受数据
+        $u=json_decode($count,true);//转换数据为数组类型
+        return $u;//返回数据
     }
 
     //回复文本消息
