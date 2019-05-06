@@ -41,6 +41,14 @@ class WechatController extends Controller
             $Content = $obj->Content;//获取文本消息内容
             if(strpos($Content,"+天气")){
                 //回复天气情况
+                $xml = "<xml>
+                              <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                              <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                              <CreateTime>time()</CreateTime>
+                              <MsgType><![CDATA[text]]></MsgType>
+                              <Content><![CDATA[北京]]></Content>
+                            </xml>";//设置xml格式的数据
+                echo $xml;//返回结果
             }
         }
         
