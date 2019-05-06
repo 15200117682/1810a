@@ -27,6 +27,8 @@ class WechatController extends Controller
         $Event = $obj->Event;//获取时间类型
         if($MsgType=="event"){
             if($Event=="subscribe"){
+
+                file_put_contents("logs/wx_event_1.log", '123');//存到public日志文件
                 //用户关注回复消息
                 $xml='<xml>
               <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>
