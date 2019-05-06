@@ -43,10 +43,15 @@ class WechatController extends Controller
             if(strpos($Content,"+天气")){
                 //回复天气消息
                 $city=mb_substr($Content,0,2);//截取城市名称
-                $url="https://free-api.heweather.net/s6/weather/now?key=HE1904161039381186&location=$city";//调接口
+                $url="http://api.k780.com/?app=weather.future&weaid=$city&appkey=42266&sign=d3c845a7c4109cb8ec891171ea641be5&format=json";//调接口
                 $json=file_get_contents($url);//获取数据
-                $arr=json_decode($json,true);//转换数据类型
-                var_dump($arr);exit;
+                $arr=json_decode($json,true);//转换数组类型
+                $text="为你分析天气情况\n";//定义空字符串
+                foreach($arr['result'] as $key=>$val){
+                    $text.="日期:".$val['week']." "."温度情况：".$val['temperature']." "."天气状况：".$val['weather']." "."风向：".$val['wind']."风力：".$val['winp']."\n";
+                }
+                $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                echo $xml;exit;
             }elseif($Content=="1"){
                 //回复班级全部人员
                 $text=implode(",",$arr);
@@ -61,7 +66,7 @@ class WechatController extends Controller
                 echo $xml;exit;
             }else{
                 //返回无结果
-                $text="抱歉，目前暂时无法为您找到相关的服务";
+                $text="抱歉，目前暂时无法为您找到相关的服务，\n正在努力帮你联系后台相关工作人员";
             }
         }
         
