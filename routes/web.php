@@ -19,6 +19,7 @@ Route::get("/info",function (){
 });//查看php配置
 
 
-
 Route::get("/wechat/chat","Wechat\WechatController@getWechat");//首次接入测试
 Route::post("/wechat/chat","Wechat\WechatController@WXEvent");//post接入测试
+
+Route::any("/wechat/getAccessToken","Wechat\WechatController@getAccessToken");//获取access_token

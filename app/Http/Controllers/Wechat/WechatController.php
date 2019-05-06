@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Wechat;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redis;
+
 
 class WechatController extends Controller
 {
@@ -76,7 +78,20 @@ class WechatController extends Controller
 
     //获取access_token
     public function getAccessToken(){
-
+        $key = 'access_token';
+        $token = Redis::get($key);
+        if($token){
+            //有缓存返回缓存数据
+        }else{
+            //无缓存调用接口获取access_token
+            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".env('WX_APPID')."&secret=".env('WX_APPSECRET');//调接口
+            $response = file_get_contents($url);
+            $arr = json_decode($response,true);//转换为数组
+            Redis::set($key,$arr['access_token']);// 存缓存
+            Redis::expire($key,3600);
+            $token = $arr['access_token'];
+        }
+        return $token;
     }
 
     //获取用户基本信息
