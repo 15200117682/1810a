@@ -48,7 +48,7 @@ class WechatController extends Controller
                 $arr=json_decode($json,true);//转换数组类型
                 $text="为你分析天气情况\n";//定义空字符串
                 foreach($arr['result'] as $key=>$val){
-                    $text.="日期:".$val['week']." "."温度情况：".$val['temperature']." "."天气状况：".$val['weather']." "."风向：".$val['wind']."风力：".$val['winp']."\n";
+                    $text.="日期:".$val['week']." "."温度情况：".$val['temperature']." "."天气状况：".$val['weather']." "."风向：".$val['wind']."风力：".$val['winp']."\n\n";
                 }
                 $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
                 echo $xml;exit;
