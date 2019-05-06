@@ -67,9 +67,21 @@ class WechatController extends Controller
             }else{
                 //返回无结果
                 $text="抱歉，目前暂时无法为您找到相关的服务，\n正在努力帮你联系后台相关工作人员";
+                $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                echo $xml;exit;
             }
         }
         
+    }
+
+    //获取access_token
+    public function getAccessToken(){
+
+    }
+
+    //获取用户基本信息
+    public function openId(){
+        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
     }
 
     //回复文本消息
