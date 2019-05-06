@@ -42,6 +42,7 @@ class WechatController extends Controller
             $Content = $obj->Content;//获取文本消息内容
             if(strpos($Content,"+天气")){
                 //回复天气情况
+                echo 1;
             }
         }
 
