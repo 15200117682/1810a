@@ -44,7 +44,6 @@ class WechatController extends Controller
                 //回复天气情况
             }
         }
-
-        echo "SUCCESS";
+        
     }
 }
