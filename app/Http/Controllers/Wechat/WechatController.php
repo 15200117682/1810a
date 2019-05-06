@@ -32,7 +32,7 @@ class WechatController extends Controller
                     <xml>
               <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>
               <FromUserName><![CDATA['.$ToUserName.']]></FromUserName>
-              <CreateTime>.time().</CreateTime>
+              <CreateTime>'.time().'</CreateTime>
               <MsgType><![CDATA[text]]></MsgType>
               <Content><![CDATA[欢迎订阅老袁头的公众号]]></Content>
             <xml>';
