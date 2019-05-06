@@ -28,16 +28,15 @@ class WechatController extends Controller
         if($MsgType=="event"){
             if($Event=="subscribe"){
 
-                file_put_contents("logs/wx_event_1.log", '123');//存到public日志文件
+//                file_put_contents("logs/wx_event_1.log", '123');//存到public日志文件
                 //用户关注回复消息
-                $xml='<xml>
-              <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>
-              <FromUserName><![CDATA['.$ToUserName.']]></FromUserName>
-              <CreateTime>'.time().'</CreateTime>
-              <MsgType><![CDATA[text]]></MsgType>
-              <Content><![CDATA[欢迎订阅老袁头的公众号]]></Content>
-            <xml>';
-                echo $xml;die;
+                echo "<xml>
+                  <ToUserName><![CDATA[".$obj->FromUserName."]]></ToUserName>
+                  <FromUserName><![CDATA[".$obj->ToUserName."]]></FromUserName>
+                  <CreateTime>".time()."</CreateTime>
+                  <MsgType><![CDATA[text]]></MsgType>
+                  <Content><![CDATA[你好]]></Content>
+                </xml>";die;
             }
         }
         /*elseif($MsgType=="text"){
