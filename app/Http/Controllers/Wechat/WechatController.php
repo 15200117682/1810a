@@ -30,8 +30,8 @@ class WechatController extends Controller
                 //用户关注回复消息
                 $xml='
                     <xml>
-              <ToUserName><![CDATA[$FromUserName]]></ToUserName>
-              <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+              <ToUserName><![CDATA['.$FromUserName.']]></ToUserName>
+              <FromUserName><![CDATA['.$ToUserName.']]></FromUserName>
               <CreateTime>.time().</CreateTime>
               <MsgType><![CDATA[text]]></MsgType>
               <Content><![CDATA[欢迎订阅老袁头的公众号]]></Content>
