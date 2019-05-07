@@ -43,14 +43,9 @@ class WechatController extends Controller
             $arr=[
                 "杨","添","雯","赵","泽","宇","张","豪","袁","帅"
             ];
-            if(strpos($Content,"+天气")){
+            if(strpos($Content,"天气")){
                 //回复天气消息
                 $city=mb_substr($Content,0,2);//截取城市名称
-                if($city){//判断城市是否正确
-                    $cit=$city;
-                }else{
-                    $cit=1;
-                }
                 $url="http://api.k780.com/?app=weather.future&weaid=$cit&appkey=42266&sign=d3c845a7c4109cb8ec891171ea641be5&format=json";//调接口
                 $json=file_get_contents($url);//获取数据
                 $arr=json_decode($json,true);//转换数组类型
