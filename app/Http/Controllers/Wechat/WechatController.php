@@ -30,6 +30,7 @@ class WechatController extends Controller
         if($MsgType=="event"){
             $data=$this->openId($FromUserName);
             if($Event=="subscribe"){
+                //关注事件回复消息
                 $text="欢迎".$data['nickname']."关注老袁头的微信,\n
                  回复1查看老袁头班级所有人名单,\n
                  回复2随机查看一位班级人姓名,\n
@@ -68,6 +69,7 @@ class WechatController extends Controller
                 $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
                 echo $xml;exit;
             }else{
+                //人工智能接口回复消息
                 $url="http://www.tuling123.com/openapi/api?key=8d54c960c1bc4d24b14dcaf61ca1f903&info=$Content";
                 $json=file_get_contents($url);
                 $arr=json_decode($json,true);//转换数组类型
