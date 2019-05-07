@@ -28,11 +28,12 @@ class WechatController extends Controller
         $MsgType = $obj->MsgType;//获取数据类型
         $Event = $obj->Event;//获取时间类型
         if($MsgType=="event"){
+            $data=$this->openId($FromUserName);
             if($Event=="subscribe"){
-                $text="欢迎关注老袁头的微信,\n
+                $text="欢迎".$data['nickname']."关注老袁头的微信,\n
                  回复1查看老袁头班级所有人名单,\n
                  回复2随机查看一位班级人姓名,\n
-                 回复天气查看当地天气情况,\n";
+                 回复地区+天气查看当地天气情况,\n";
                 //用户关注回复消息
                 $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
                 echo $xml;exit;
@@ -48,7 +49,7 @@ class WechatController extends Controller
                 $url="http://api.k780.com/?app=weather.future&weaid=$city&appkey=42266&sign=d3c845a7c4109cb8ec891171ea641be5&format=json";//调接口
                 $json=file_get_contents($url);//获取数据
                 $arr=json_decode($json,true);//转换数组类型
-                $text="为你分析天气情况\n";//定义空字符串
+                $text="为您分析天气情况\n";//定义空字符串
                 foreach($arr['result'] as $key=>$val){
                     $text.="日期:".$val['week']." "."温度情况：".$val['temperature']." "."天气状况：".$val['weather']." "."风向：".$val['wind']."风力：".$val['winp']."\n\n";
                 }
@@ -68,7 +69,7 @@ class WechatController extends Controller
                 echo $xml;exit;
             }else{
                 //返回无结果
-                $text="抱歉，目前暂时无法为您找到相关的服务，\n正在努力帮你联系后台相关工作人员";
+                $text="抱歉，目前暂时无法为您找到相关的服务，\n正在努力帮您联系后台相关工作人员";
                 $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
                 echo $xml;exit;
             }
