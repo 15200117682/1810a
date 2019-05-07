@@ -33,7 +33,7 @@ class WechatController extends Controller
                 $text="欢迎".$data['nickname']."关注老袁头的微信,\n
                  回复1查看老袁头班级所有人名单,\n
                  回复2随机查看一位班级人姓名,\n
-                 回复地区+天气查看当地天气情况,\n";
+                 回复地区+你。·天气查看当地天气情况,\n";
                 //用户关注回复消息
                 $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
                 echo $xml;exit;
@@ -46,7 +46,12 @@ class WechatController extends Controller
             if(strpos($Content,"+天气")){
                 //回复天气消息
                 $city=mb_substr($Content,0,2);//截取城市名称
-                $url="http://api.k780.com/?app=weather.future&weaid=$city&appkey=42266&sign=d3c845a7c4109cb8ec891171ea641be5&format=json";//调接口
+                if($city){//判断城市是否正确
+                    $cit=$city;
+                }else{
+                    $cit=1;
+                }
+                $url="http://api.k780.com/?app=weather.future&weaid=$cit&appkey=42266&sign=d3c845a7c4109cb8ec891171ea641be5&format=json";//调接口
                 $json=file_get_contents($url);//获取数据
                 $arr=json_decode($json,true);//转换数组类型
                 $text="为您分析天气情况\n";//定义空字符串
