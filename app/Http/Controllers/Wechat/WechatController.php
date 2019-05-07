@@ -68,8 +68,11 @@ class WechatController extends Controller
                 $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
                 echo $xml;exit;
             }else{
+                $url="http://www.tuling123.com/openapi/api?key=8d54c960c1bc4d24b14dcaf61ca1f903&info=$Content";
+                $json=file_get_contents($url);
+                $arr=json_decode($json,true);//转换数组类型
+                $text=$arr['text'];
                 //返回无结果
-                $text="抱歉，目前暂时无法为您找到相关的服务，\n正在努力帮您联系后台相关工作人员";
                 $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
                 echo $xml;exit;
             }
