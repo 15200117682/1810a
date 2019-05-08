@@ -33,6 +33,8 @@ class WechatController extends Controller
             if($Event=="subscribe"){
                 //用户关注后用户信息入库
                 $this->UserDb($FromUserName,$ToUserName,$data);//用户关注/*79*/
+            }elseif($Event=="unsubscribe"){
+                $this->UserDbNo($FromUserName,$data);
             }
         }elseif($MsgType=="text"){
             $Content = $obj->Content;//获取文字内容
@@ -126,5 +128,14 @@ class WechatController extends Controller
         }
         $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
         echo $xml;exit;
+    }
+
+    //取消关注修改数据库
+    public function UserDbNo($FromUserName,$data){
+        $arr=[
+            "status"=>0
+        ];//修改数据
+        UserModel::where(['openid' => $FromUserName])->update($arr);//执行sql
+        echo "SUCCESS";
     }
 }
