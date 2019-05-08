@@ -6,7 +6,7 @@ use App\Model\UsersModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
-
+use GuzzleHttp\Client;
 
 class WechatController extends Controller
 {
@@ -84,6 +84,32 @@ class WechatController extends Controller
                   <Content><![CDATA[$text]]></Content>
                 </xml>";
         return $xml;
+    }
+
+    /**
+     * 新增临时素材
+     */
+    public function materadd(){
+        $access=getAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/media/upload?access_token=$access&type=image";
+        $image="/wwwroot/1810a/public/img/116.jpg";
+        $imgPath = new \CURLFile($image); //通过CURLFile处理
+        $post_data = [
+            'media'=>$imgPath  //素材路径
+        ];
+        $res = curlPost($url,$post_data);
+        var_dump($res);die;
+    }
+
+    /**
+     * 获取临时素材
+     */
+    public function materlist(){
+        $access=getAccessToken();
+        $media_id="B94KK6tnr0JpepcIAFO2vz7WI3WB3rJkx9IQvQAVgtT2BpzNu9aog488HAnLlfif";
+        $url="https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access&media_id=$media_id";
+        $json=file_get_contents($url);
+        var_dump($json);
     }
 
     /**
@@ -180,4 +206,5 @@ class WechatController extends Controller
         UsersModel::where(['openid' => $FromUserName])->update($arr);//执行sql
         echo "SUCCESS";
     }
+
 }
