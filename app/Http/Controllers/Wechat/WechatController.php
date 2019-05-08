@@ -79,28 +79,42 @@ class WechatController extends Controller
 
     //用户关注事件
     public function UserDb($FromUserName,$ToUserName,$data){
-        $array = array(
-            "openid" => $data['openid'],//用户id
-            "nickname" => $data['nickname'],//用户名称
-            "city" => $data['city'],//用户所在城市
-            "province" => $data['province'],//用户所在区
-            "country" => $data['country'],//用户所在国家
-            "headimgurl" => $data['headimgurl'],//用户头像
-            "subscribe_time" => $data['subscribe_time'],//用户时间
-            "sex" => $data['sex'],//用户性别
-            "status"=>1
-        );//设置数组形式的数据类型
-        $res=UsersModel::insertGetId($array);
-        if($res){
-            //关注事件回复消息
-            $text="欢迎".$data['nickname']."关注老袁头的微信,\n
+        $first=UsersModel::where(["openid"=>$FromUserName])->first();
+        if($first){//用户关注过
+            $arr=[
+                "status"=>1
+            ];//修改数据
+            $res=UsersModel::where(['openid' => $FromUserName])->update($arr);//执行sql
+            if($res) {
+                $text = "欢迎回来" . $data['nickname'];
+                $xml = $this->ReturnText($FromUserName, $ToUserName, $text);
+                echo $xml;exit;
+            }
+        }else{//用户之前未关注过
+            $array = array(
+                "openid" => $data['openid'],//用户id
+                "nickname" => $data['nickname'],//用户名称
+                "city" => $data['city'],//用户所在城市
+                "province" => $data['province'],//用户所在区
+                "country" => $data['country'],//用户所在国家
+                "headimgurl" => $data['headimgurl'],//用户头像
+                "subscribe_time" => $data['subscribe_time'],//用户时间
+                "sex" => $data['sex'],//用户性别
+                "status"=>1
+            );//设置数组形式的数据类型
+            $res=UsersModel::insertGetId($array);
+            if($res){
+                //关注事件回复消息
+                $text="欢迎".$data['nickname']."关注老袁头的微信,\n
                  回复1查看老袁头班级所有人名单,\n
                  回复2随机查看一位班级人姓名,\n
                  回复地区+天气查看当地天气情况,\n";
-            //用户关注回复消息
-            $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
-            echo $xml;exit;
+                //用户关注回复消息
+                $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                echo $xml;exit;
+            }
         }
+
     }
 
     //图灵机器人接口
