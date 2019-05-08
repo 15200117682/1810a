@@ -10,13 +10,16 @@ use Illuminate\Support\Facades\Redis;
 
 class WechatController extends Controller
 {
-
-    //首次接入微信
+    /**
+     * 首次接入微信
+     */
     public function getWechat(){
         echo $_GET['echostr'];//首次接入返回信息
     }
 
-    //post接入微信
+    /**
+     * post接入微信
+     */
     public function WXEvent(){
         $data = file_get_contents("php://input");//通过流的方式接受post数据
         $time = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";//存入时间
@@ -65,7 +68,13 @@ class WechatController extends Controller
         
     }
 
-    //回复文本消息
+    /**
+     * 回复文本消息
+     * @param $FromUserName
+     * @param $ToUserName
+     * @param $text
+     * @return string
+     */
     public function ReturnText($FromUserName,$ToUserName,$text){
         $xml="<xml>
                   <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
@@ -77,7 +86,12 @@ class WechatController extends Controller
         return $xml;
     }
 
-    //用户关注事件
+    /**
+     * 用户关注事件
+     * @param $FromUserName
+     * @param $ToUserName
+     * @param $data
+     */
     public function UserDb($FromUserName,$ToUserName,$data){
         $first=UsersModel::where(["openid"=>$FromUserName])->first();
         if($first){//用户关注过
@@ -117,7 +131,12 @@ class WechatController extends Controller
 
     }
 
-    //图灵机器人接口
+    /**
+     * 图灵机器人接口
+     * @param $FromUserName
+     * @param $ToUserName
+     * @param $Content
+     */
     public function RoBot($FromUserName,$ToUserName,$Content){
         //人工智能接口回复消息
         $url="http://www.tuling123.com/openapi/api?key=8d54c960c1bc4d24b14dcaf61ca1f903&info=$Content";
@@ -129,7 +148,12 @@ class WechatController extends Controller
         echo $xml;exit;
     }
 
-    //天气接口
+    /**
+     * 天气接口
+     * @param $FromUserName
+     * @param $ToUserName
+     * @param $Content
+     */
     public function Weacher($FromUserName,$ToUserName,$Content){
         //回复天气消息
         $city=mb_substr($Content,0,-3);//截取城市名称
@@ -144,7 +168,11 @@ class WechatController extends Controller
         echo $xml;exit;
     }
 
-    //取消关注修改数据库
+    /**
+     * 取消关注修改数据库
+     * @param $FromUserName
+     * @param $data
+     */
     public function UserDbNo($FromUserName,$data){
         $arr=[
             "status"=>0
