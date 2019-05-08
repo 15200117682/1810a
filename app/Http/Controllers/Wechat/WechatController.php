@@ -135,7 +135,7 @@ class WechatController extends Controller
         $arr=[
             "status"=>0
         ];//修改数据
-        UserModel::where(['openid' => $FromUserName])->update($arr);//执行sql
+        UsersModel::where(['openid' => $FromUserName])->update($arr);//执行sql
         echo "SUCCESS";
     }
 }
