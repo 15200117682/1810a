@@ -26,3 +26,7 @@ Route::any("/wechat/getAccessToken","Wechat\WechatController@getAccessToken");//
 
 Route::any("/wechat/materadd","Wechat\WechatController@materadd");//添加临时素材
 Route::any("/wechat/materlist","Wechat\WechatController@materlist");//获取临时素材
+
+
+
+
