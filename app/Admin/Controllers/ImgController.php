@@ -138,7 +138,9 @@ class ImgController extends Controller
         $grid->img_name('图片名称');
         $grid->img_url('图片')->image("$url",100,100);
         $grid->img_media('media');
-        $grid->img_time('存入时间');
+        $grid->img_time('存入时间')->display(function(){
+            return date("Y-m-d H:i:s");
+        });
 
         return $grid;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Wechat;
 
+use App\Model\ImgModel;
 use App\Model\UsersModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -64,6 +65,19 @@ class WechatController extends Controller
                 $this->RoBot($FromUserName,$ToUserName,$Content);//机器人/*105*/
             }
 
+        }elseif($MsgType=="image"){
+            $data=ImgModel::first();
+            $media_id=$data->img_media;
+            $xml="<xml>
+  <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
+                  <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
+                  <CreateTime>".time()."</CreateTime>
+                  <MsgType><![CDATA[image]]></MsgType>
+                  <Voice>
+                    <MediaId><![CDATA[".$media_id."]]></MediaId>
+                  </Voice>
+                </xml>";
+            echo $xml;
         }
         
     }
