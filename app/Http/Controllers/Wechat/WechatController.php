@@ -66,7 +66,7 @@ class WechatController extends Controller
             }
 
         }elseif($MsgType=="image"){
-            $data=ImgModel::orderByRaw("RAND()")->get();//随机查询一条数据
+            $data=ImgModel::orderByRaw("RAND()")->first();//随机查询一条数据
             $media_id=$data->img_media;
             if($media_id){
                 $xml="<xml><ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
