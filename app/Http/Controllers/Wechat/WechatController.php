@@ -137,8 +137,9 @@ class WechatController extends Controller
 
             ]
         ];//设置自定义菜单参数
-        $res = curlPost($url,$data);
-        var_dump($res);die;
+        $json=json_encode($data,JSON_UNESCAPED_UNICODE);//转换数据类型
+        $res = curlPost($url,$json);
+        echo $res;exit;
 
     }
 
