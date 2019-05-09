@@ -66,10 +66,10 @@ class WechatController extends Controller
             }
 
         }elseif($MsgType=="image"){
-            $data=ImgModel::first();
+            $data=ImgModel::orderByRaw("RAND()")->get();//随机查询一条数据
             $media_id=$data->img_media;
-            $xml="<xml>
-  <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
+            if($media_id){
+                $xml="<xml><ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
                   <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
                   <CreateTime>".time()."</CreateTime>
                   <MsgType><![CDATA[image]]></MsgType>
@@ -77,7 +77,9 @@ class WechatController extends Controller
                     <MediaId><![CDATA[".$media_id."]]></MediaId>
                   </Voice>
                 </xml>";
-            echo $xml;
+                echo $xml;
+            }
+
         }
         
     }
