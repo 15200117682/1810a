@@ -44,14 +44,15 @@ class WechatController extends Controller
             $data=ImgModel::orderByRaw("RAND()")->first();//随机查询一条数据
             $media_id=$data->img_media;
             if($media_id){
-                $xml="<xml><ToUserName><![CDATA[$FromUserName]]></ToUserName>
-                  <FromUserName><![CDATA[$ToUserName]]></FromUserName>
-                  <CreateTime>".time()."</CreateTime>
-                  <MsgType><![CDATA[image]]></MsgType>
-                  <Voice>
-                    <MediaId><![CDATA[$media_id]]></MediaId>
-                  </Voice>
-                </xml>";
+                $xml="<xml>
+                            <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                            <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                            <CreateTime>".time()."</CreateTime>
+                            <MsgType><![CDATA[image]]></MsgType>
+                            <Image>
+                            <MediaId><![CDATA[$media_id]]></MediaId>
+                            </Image>
+                        </xml>";
                 echo $xml;
             }
 
