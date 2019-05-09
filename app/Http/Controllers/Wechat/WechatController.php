@@ -118,6 +118,30 @@ class WechatController extends Controller
         var_dump($res);die;
     }
 
+
+    public function menu(){
+        $access=getAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access";
+        $data = [
+            'button'=> [
+                [
+                    "type"=>"click",
+                    "name"=>"最差缘分",
+                    "key"=>"V1001_TODAY_MUSIC"
+                ],
+                [
+                    'type'=>'view',
+                    'name'=>'快乐风男',
+                    'url'=>"http://www.baidu.com/"
+                ],
+
+            ]
+        ];//设置自定义菜单参数
+        $res = curlPost($url,$data);
+        var_dump($res);die;
+
+    }
+
     /**
      * 获取临时素材
      */

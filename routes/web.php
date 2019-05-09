@@ -24,6 +24,8 @@ Route::post("/wechat/chat","Wechat\WechatController@WXEvent");//post接入测试
 
 Route::any("/wechat/getAccessToken","Wechat\WechatController@getAccessToken");//获取access_token
 
+Route::any("/wechat/menu","Wechat\WechatController@menu");//创建自定义菜单
+
 Route::any("/wechat/materadd","Wechat\WechatController@materadd");//添加临时素材
 Route::any("/wechat/materlist","Wechat\WechatController@materlist");//获取临时素材
 
