@@ -40,6 +40,21 @@ class WechatController extends Controller
             }elseif($Event=="unsubscribe"){
                 $this->UserDbNo($FromUserName,$data);
             }
+        }elseif($MsgType=="image"){
+            $data=ImgModel::orderByRaw("RAND()")->first();//随机查询一条数据
+            $media_id=$data->img_media;
+            if($media_id){
+                $xml="<xml><ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
+                  <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
+                  <CreateTime>".time()."</CreateTime>
+                  <MsgType><![CDATA[image]]></MsgType>
+                  <Voice>
+                    <MediaId><![CDATA[".$media_id."]]></MediaId>
+                  </Voice>
+                </xml>";
+                echo $xml;
+            }
+
         }elseif($MsgType=="text"){
             $Content = $obj->Content;//获取文字内容
             $arr=[
@@ -63,21 +78,6 @@ class WechatController extends Controller
             }else{
                 //图灵机器人在线聊天
                 $this->RoBot($FromUserName,$ToUserName,$Content);//机器人/*105*/
-            }
-
-        }elseif($MsgType=="image"){
-            $data=ImgModel::orderByRaw("RAND()")->first();//随机查询一条数据
-            $media_id=$data->img_media;
-            if($media_id){
-                $xml="<xml><ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
-                  <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
-                  <CreateTime>".time()."</CreateTime>
-                  <MsgType><![CDATA[image]]></MsgType>
-                  <Voice>
-                    <MediaId><![CDATA[".$media_id."]]></MediaId>
-                  </Voice>
-                </xml>";
-                echo $xml;
             }
 
         }
