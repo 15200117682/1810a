@@ -50,7 +50,7 @@ class ImgController extends Controller
     public function matermedo(Request $request){
         $name=$request->input('img_name');//获取图片名称
         $img_url = $request->img_url->store('images');//获取图片信息
-        $media_path=public_path()."/".$img_url;//获取绝对路径
+        $media_path=public_path()."/".$img_url;//获取绝对路径并存入laravel
         $imgPath = new \CURLFile($media_path);//通过CURLFile处理
         $post_data = [
             'media'=>$imgPath  //素材路径
