@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 class LoveController extends Controller
 {
+    public $resinfo;
     public function getWechat(){
         echo $_GET['echostr'];//首次接入返回信息
     }
@@ -61,10 +62,9 @@ class LoveController extends Controller
                     'love_content'=>"",
                     "love_time"=>time()
                 ];//先把被表白的人名字入库
-                $res=LoveModel::insertGetId($arr);//入库
-                var_dump($res);
+                $this->resinfo=LoveModel::insertGetId($arr);//入库
                 /*把表白的具体内容存入数据库*/
-                if($res){
+                if($this->resinfo){
                     $xml=$this->ReturnText($FromUserName,$ToUserName,$text);//提示用户发送表白内容
                     echo $xml;exit;
                 }
@@ -73,7 +73,7 @@ class LoveController extends Controller
                     "love_content"=>$Content
                 ];//存入表白的内容
                 /*把表白的内容入库，然后提示用户表白成功*/
-                $res=LoveModel::where(['love_openid'=>$FromUserName])->update($arr);//入库
+                $res=LoveModel::where(['love_openid'=>$FromUserName])->where(['love_id'=>$this->resinfo])->update($arr);//入库
                 /*把表白的内容入库，然后提示用户表白成功*/
                 if($res){
                     $text2="表白成功";
