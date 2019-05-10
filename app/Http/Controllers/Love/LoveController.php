@@ -41,4 +41,23 @@ class LoveController extends Controller
             }
     }
 
+
+    /**
+     * 回复文本消息
+     * @param $FromUserName
+     * @param $ToUserName
+     * @param $text
+     * @return string
+     */
+    public function ReturnText($FromUserName,$ToUserName,$text){
+        $xml="<xml>
+                  <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
+                  <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
+                  <CreateTime>".time()."</CreateTime>
+                  <MsgType><![CDATA[text]]></MsgType>
+                  <Content><![CDATA[$text]]></Content>
+                </xml>";
+        return $xml;
+    }
+
 }
