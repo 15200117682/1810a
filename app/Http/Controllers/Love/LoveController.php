@@ -26,21 +26,21 @@ class LoveController extends Controller
         $Event = $obj->Event;//获取时间类型
         $Content = $obj->Content;//获取时间类型
             if($Event=="CLICK"){
-                $EventKey=$obj->EventKey;
+                $EventKey=$obj->EventKey;//获取事件信息
                     //查表白返回数据
-                    if($EventKey=="select"){
+                    if($EventKey=="select"){//查询菜单点击
                         $text="请输入要查询的表白人名字";
                         $name="查表白";
-                        $this->upEvent($FromUserName,$name);
-                        $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                        $this->upEvent($FromUserName,$name);//存入事件
+                        $xml=$this->ReturnText($FromUserName,$ToUserName,$text);//返回给用户文字提示{调用的函数}
                         echo $xml;exit;
                     }
                     //发表白返回数据
-                    if($EventKey=="send"){
-                        $text="请输入要发送的表白";
+                    if($EventKey=="send"){//发送表白菜单点击
+                        $text="请输入要发送表白人的名字";
                         $name="发表白";
-                        $this->upEvent($FromUserName,$name);
-                        $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                        $this->upEvent($FromUserName,$name);//存入事件
+                        $xml=$this->ReturnText($FromUserName,$ToUserName,$text);//返回给用户文字提示{调用的函数}
                         echo $xml;exit;
                     }
 
@@ -51,7 +51,7 @@ class LoveController extends Controller
             $data=$this->allEvent($FromUserName);//查看上一步事件
             $datainfo=json_decode($data,true);
             if($datainfo['act_name']=="发表白"){
-                $text="请选择要表白的内容";
+                $text="请填写要表白的内容";
                 $name="发内容";
                 $this->upEvent($FromUserName,$name);//存上一步事件
                 /*把表白的具体内容存入数据库*/
@@ -60,8 +60,8 @@ class LoveController extends Controller
                     'love_name'=>$Content,
                     'love_content'=>"",
                     "love_time"=>time()
-                ];
-                $res=LoveModel::insertGetId($arr);
+                ];//先把被表白的人名字入库
+                $res=LoveModel::insertGetId($arr);//入库
                 var_dump($res);
                 /*把表白的具体内容存入数据库*/
                 if($res){
@@ -71,9 +71,9 @@ class LoveController extends Controller
             }elseif($datainfo['act_name']=="发内容"){
                 $arr=[
                     "love_content"=>$Content
-                ];
+                ];//存入表白的内容
                 /*把表白的内容入库，然后提示用户表白成功*/
-                $res=LoveModel::where(['love_openid'=>$FromUserName])->update($arr);
+                $res=LoveModel::where(['love_openid'=>$FromUserName])->update($arr);//入库
                 /*把表白的内容入库，然后提示用户表白成功*/
                 if($res){
                     $text2="表白成功";
@@ -81,14 +81,14 @@ class LoveController extends Controller
                     echo $xml;exit;
                 }
             }elseif($datainfo['act_name']=="查表白"){
-                $res=LoveModel::where(['love_name'=>$Content])->first();
+                /************查询表白**************/
+                $res=LoveModel::where(['love_name'=>$Content])->first();//查询被表白的人
                 $res=json_decode($res,true);//转数组
                 $love_name=$res['love_name'];//被表白的人
-
                 $count=LoveModel::where(['love_name'=>$Content])->get()->count();//被表白了多少次
-
+                /*返回查询结果*/
                 if($res){
-                    $str="表白："."$love_name"."\n"."被表白："."$count"."次";
+                    $str="表白："."$love_name"."\n"."被表白："."$count"."次";//回复给用户的消息
                     $xml=$this->ReturnText($FromUserName,$ToUserName,$str);//提示用户发送表白内容
                     echo $xml;exit;
                 }else{
@@ -96,6 +96,8 @@ class LoveController extends Controller
                     $xml=$this->ReturnText($FromUserName,$ToUserName,$test);//提示用户发送表白内容
                     echo $xml;exit;
                 }
+                /*返回查询结果*/
+                /************查询表白**************/
             }
 
         }
