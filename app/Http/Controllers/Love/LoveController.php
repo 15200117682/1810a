@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Love;
 
 use App\Model\ActModel;
+use App\Model\LoveModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -23,6 +24,7 @@ class LoveController extends Controller
         $CreateTime = $obj->CreateTime;//获取时间
         $MsgType = $obj->MsgType;//获取数据类型
         $Event = $obj->Event;//获取时间类型
+        $Content = $obj->Content;//获取时间类型
             if($Event=="CLICK"){
                 $EventKey=$obj->EventKey;
                     //查表白返回数据
@@ -49,11 +51,27 @@ class LoveController extends Controller
             $data=$this->allEvent($FromUserName);//查看上一步事件
             $datainfo=json_decode($data,true);
             if($datainfo['act_name']=="发表白"){
-                $text="请发送要表白的人名字";
-                $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
-                echo $xml;exit;
+                $text="请选择要表白的内容";
+                $name="发内容";
+                $this->upEvent($FromUserName,$name);//存上一步事件
+                /*把表白的具体内容存入数据库*/
+                $arr=[
+                    'love_openid'=>$FromUserName,
+                    'love_name'=>$Content,
+                    'love_content'=>"",
+                    "love_time"=>time()
+                ];
+                $res=LoveModel::insertGetId($arr);
+                var_dump($res);
+                /*把表白的具体内容存入数据库*/
+                if($res){
+                    $xml=$this->ReturnText($FromUserName,$ToUserName,$text);//提示用户发送表白内容
+                    echo $xml;exit;
+                }
+            }elseif($datainfo['act_name']=="发内容"){
+                /*把表白的内容入库，然后提示用户表白成功*/
             }
-            
+
         }
     }
 
