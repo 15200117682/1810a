@@ -72,7 +72,8 @@ class LoveController extends Controller
                     "love_content"=>$Content
                 ];//存入表白的内容
                 /*把表白的内容入库，然后提示用户表白成功*/
-                $resdata=LoveModel::where(['love_openid'=>$FromUserName])->orderBy("love_id","desc")->lilsts("love_id")->first();
+                $resdata=LoveModel::where(['love_openid'=>"ON5mteSvPK4cgr9r7BNbILST4"])->orderBy("love_id","desc")->first()->toArray();
+                $resdata=$resdata['love_id'];
                 $res=LoveModel::where(['love_openid'=>$FromUserName])->where(["love_id"=>$resdata])->update($arr);//入库
                 /*把表白的内容入库，然后提示用户表白成功*/
                 if($res){
