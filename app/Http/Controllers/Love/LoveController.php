@@ -69,7 +69,17 @@ class LoveController extends Controller
                     echo $xml;exit;
                 }
             }elseif($datainfo['act_name']=="发内容"){
+                $arr=[
+                    "love_content"=>$Content
+                ];
                 /*把表白的内容入库，然后提示用户表白成功*/
+                $res=LoveModel::where(['love_openid'=>$FromUserName])->update($arr);
+                /*把表白的内容入库，然后提示用户表白成功*/
+                if($res){
+                    $text2="表白成功";
+                    $xml=$this->ReturnText($FromUserName,$ToUserName,$text2);//提示用户发送表白内容
+                    echo $xml;exit;
+                }
             }
 
         }
