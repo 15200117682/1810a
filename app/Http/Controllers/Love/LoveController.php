@@ -41,14 +41,23 @@ class LoveController extends Controller
                         $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
                         echo $xml;exit;
                     }
-                    //监听上一步的事件 ，1、（select查询数据库，表白） 2、（send把要表白的存入库）
 
 
             }
+        if($MsgType=="text"){
+            //看上一步的事件
+            $data=$this->allEvent($FromUserName);//查看上一步事件
+            $datainfo=json_decode($data,true);
+            if($datainfo['act_name']=="发表白"){
+                $text="请发送要表白的人名字";
+                $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                echo $xml;exit;
+            }
+            
+        }
     }
 
     //记录上步事件
-
     public function upEvent($FromUserName,$send){
         $arr=[
             "act_openid"=>$FromUserName,
@@ -56,6 +65,12 @@ class LoveController extends Controller
             "act_time"=>time()
             ];
         ActModel::insertGetId($arr);
+    }
+
+    //查取上一步事件
+    public function allEvent($FromUserName){
+        $data=ActModel::where(["act_openid"=>$FromUserName])->orderBy('act_id','desc')->first();
+        return $data;
     }
 
     /**
