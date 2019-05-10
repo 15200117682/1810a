@@ -84,11 +84,11 @@ class LoveController extends Controller
                 $res=LoveModel::where(['love_name'=>$Content])->first();
                 $res=json_decode($res,true);//转数组
                 $love_name=$res['love_name'];//被表白的人
-                $love_content=$res['love_content'];//表白的内容
-                $open=openId($FromUserName);
-                $nickname=$open["nickname"];
+
+                $count=LoveModel::where(['love_name'=>$Content])->get()->count();//被表白了多少次
+
                 if($res){
-                    $str="表白："."$love_name"."\n"."表白内容："."$love_content"."\n"."表白人："."$nickname";
+                    $str="表白："."$love_name"."\n"."被表白："."$count"."次";
                     $xml=$this->ReturnText($FromUserName,$ToUserName,$str);//提示用户发送表白内容
                     echo $xml;exit;
                 }else{
