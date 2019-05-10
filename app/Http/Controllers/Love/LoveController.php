@@ -29,7 +29,7 @@ class LoveController extends Controller
                 $EventKey=$obj->EventKey;
                     //查表白返回数据
                     if($EventKey=="select"){
-                        $text="请输入要查询的表白";
+                        $text="请输入要查询的表白人名字";
                         $name="查表白";
                         $this->upEvent($FromUserName,$name);
                         $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
@@ -78,6 +78,22 @@ class LoveController extends Controller
                 if($res){
                     $text2="表白成功";
                     $xml=$this->ReturnText($FromUserName,$ToUserName,$text2);//提示用户发送表白内容
+                    echo $xml;exit;
+                }
+            }elseif($datainfo['act_name']=="查表白"){
+                $res=LoveModel::where(['love_name'=>$Content])->first();
+                $res=json_decode($res,true);//转数组
+                $love_name=$res['love_name'];//被表白的人
+                $love_content=$res['love_content'];//表白的内容
+                $open=openId($FromUserName);
+                $nickname=$open["nickname"];
+                if($res){
+                    $str="表白："."$love_name"."\n"."表白内容："."$love_content"."\n"."表白人："."$nickname";
+                    $xml=$this->ReturnText($FromUserName,$ToUserName,$str);//提示用户发送表白内容
+                    echo $xml;exit;
+                }else{
+                    $test="没人跟表白";
+                    $xml=$this->ReturnText($FromUserName,$ToUserName,$test);//提示用户发送表白内容
                     echo $xml;exit;
                 }
             }
