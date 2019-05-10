@@ -28,6 +28,8 @@ class LoveController extends Controller
                     //查表白返回数据
                     if($EventKey=="select"){
                         $text="请输入要查询的表白";
+                        $name="查表白";
+                        $this->upEvent($FromUserName,$name);
                         $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
                         echo $xml;exit;
                     }
@@ -40,7 +42,7 @@ class LoveController extends Controller
                         echo $xml;exit;
                     }
                     //监听上一步的事件 ，1、（select查询数据库，表白） 2、（send把要表白的存入库）
-                
+
 
             }
     }
