@@ -126,13 +126,13 @@ class WechatController extends Controller
             'button'=> [
                 [
                     "type"=>"click",
-                    "name"=>"最差缘分",
-                    "key"=>"V1001_TODAY_MUSIC"
+                    "name"=>"查表白",
+                    "key"=>"select"
                 ],
                 [
-                    'type'=>'view',
-                    'name'=>'快乐风男',
-                    'url'=>"http://www.baidu.com/"
+                    'type'=>'click',
+                    'name'=>'发表白',
+                    'key'=>"send"
                 ],
 
             ]
