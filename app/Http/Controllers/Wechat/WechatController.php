@@ -39,6 +39,20 @@ class WechatController extends Controller
                 $this->UserDb($FromUserName,$ToUserName,$data);//用户关注/*79*/
             }elseif($Event=="unsubscribe"){
                 $this->UserDbNo($FromUserName,$data);
+            }elseif($Event=="CLICK"){
+                $EventKey=$obj->EventKey;
+                //查表白返回数据
+                if($EventKey=="select"){
+                    $text="请输入要查询的表白";
+                    $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                    echo $xml;exit;
+                }
+                //发表白返回数据
+                if($EventKey=="send"){
+                    $text="请输入要发送的表白";
+                    $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                    echo $xml;exit;
+                }
             }
         }elseif($MsgType=="image"){
             $data=ImgModel::orderByRaw("RAND()")->first();//随机查询一条数据
