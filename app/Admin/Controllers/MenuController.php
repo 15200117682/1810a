@@ -87,20 +87,51 @@ class MenuController extends Controller
     }
 
     public function meadd(){
-        return view("menu.menuadd");
+        $data=MenuModel::where(['p_id'=>0])->get()->toArray();
+        return view("menu.menuadd",['data'=>$data]);
     }
 
     public function menumedo(Request $request){
-        $data=$request->input();
-        $arr=[
-            'menu_name'=>$data['menu_name'],
-            'menu_type'=>$data['menu_type'],
-            'menu_key'=>$data['menu_key'],
-        ];
-        $res=MenuModel::insertGetId($arr);
-        if($res){
+        $data=$request->input();//接受页面所有信息
+        if($data['menu_name']==""){//判断类别
+            return "名字不能为空";
+        }elseif($data['menu_type']==""){//判断key
+            return "类型不能为空";
+        }elseif($data['menu_key']==""){//判断名字
+            return "key不能为空";
+        }
+        $info=MenuModel::where(['menu_name'=>$data['menu_name']])->get()->toArray();//查取名字是否重复
+        if($info){
+            return "菜单已存在，无法重复添加";
+        }//如果菜单名称数据库已存在，禁止添加
+        if($data['p_id']==0){//如果是顶级菜单，添加所有信息
+            $count=MenuModel::where(['p_id'=>0])->get()->count();//查询菜单数量
+            if($count>=3){
+                return "顶级菜单太多，无法添加";
+            }//如果一级菜单过多，无法添加
+            $arr=[
+                'menu_name'=>$data['menu_name'],
+                'menu_type'=>$data['menu_type'],
+                'menu_key'=>$data['menu_key'],
+            ];//组合数据
+            $res=MenuModel::insertGetId($arr);//入库
+        }else{//如果是不是顶级分类，把属于它的父类type和key删除，然后执行添加
+            $count=MenuModel::where(['p_id'=>$data['p_id']])->get()->count();//查询已有菜单的数量
+            if($count>=5){
+                return "菜单太多，无法添加";
+            }//如果菜单过多，无法添加
+            $arr=[
+                'menu_name'=>$data['menu_name'],
+                'menu_type'=>$data['menu_type'],
+                'menu_key'=>$data['menu_key'],
+                'p_id'=>$data['p_id']
+            ];//拼装数据
+            $res=MenuModel::insertGetId($arr);//执行添加的sql
+        }
+        if($res){//问题
             return redirect('/admin/menulist');
         }
+
     }
 
     /**
@@ -116,6 +147,7 @@ class MenuController extends Controller
         $grid->menu_name('菜单名称');
         $grid->menu_type('菜单类型');
         $grid->menu_key('菜单key');
+        $grid->p_id('所属父类');
 
         return $grid;
     }
