@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Wechat;
 
 use App\Model\ImgModel;
+use App\Model\MenuModel;
 use App\Model\UsersModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -119,28 +120,58 @@ class WechatController extends Controller
     }
 
 
-    public function menu(){
+    public function menu1(){
         $access=getAccessToken();
+        $arr=MenuModel::all()->toArray();
+        $typeArr = ['click'=>'key','view'=>'url'];//数组类型
+        //var_dump($arr);exit;
         $url="https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access";
-        $data = [
-            'button'=> [
-                [
-                    "type"=>"click",
-                    "name"=>"查表白",
-                    "key"=>"select"
-                ],
-                [
-                    'type'=>'click',
-                    'name'=>'发表白',
-                    'key'=>"send"
-                ],
-
-            ]
-        ];//设置自定义菜单参数
+        $data = [];//设置自定义菜单参数
+        foreach($arr as $key=>$value){
+                $data['button'][] = [
+                    'type' => $value['menu_type'],
+                    'name' => $value['menu_name'],
+                    $typeArr[$value['menu_type']] => $value['menu_key']
+                ];
+        }
+        //var_dump($data);exit;
         $json=json_encode($data,JSON_UNESCAPED_UNICODE);//转换数据类型
+        //var_dump($json);exit;
         $res = curlPost($url,$json);
         echo $res;exit;
+    }
 
+    //二级菜单创建
+    public function menu(){
+        $access=getAccessToken();//获取access_token
+        $url="https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access";//调接口
+        $arr=MenuModel::where(['p_id'=>0])->get()->toArray();//查询一级菜单
+        $typeArr = ['click'=>'key','view'=>'url'];//数组类型
+        $data=[];//定义空数组
+        foreach($arr as $key=>$value){
+            if(empty($value['menu_type'])&&empty($value['menu_key'])){//有二级菜单的
+                $data['button'][$key]['name'] = $value['menu_name'];//二级菜单的名字
+                $dataInfo = MenuModel::where(['p_id'=>$value['menu_id']])->get()->toArray();
+                foreach ($dataInfo as $k => $v) {
+                    $data['button'][$key]['sub_button'][] = [
+                        'type'=> $v['menu_type'],
+                        'name'=> $v['menu_name'],
+                        $typeArr[$v['menu_type']] => $v['menu_key']
+                    ];
+                }
+            }else{//没有二级菜单的
+                $data['button'][] = [
+                    'type'=> $value['menu_type'],
+                    'name'=> $value['menu_name'],
+                    $typeArr[$value['menu_type']] => $value['menu_key']
+                ];//组成数组
+            }
+        }
+        //var_dump($data);exit;
+        $json=json_encode($data,JSON_UNESCAPED_UNICODE);//转换数据类型
+        //var_dump($json);exit;
+        $res = curlPost($url,$json);
+        var_dump($res);exit;
     }
 
     /**

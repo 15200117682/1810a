@@ -26,9 +26,13 @@ class MenuController extends Controller
         return $content
             ->header('Index')
             ->description('description')
-            ->body($this->grid());
+            ->body($this->grid())
+            ->row($this->sub());
     }
 
+    public function sub(){
+        return view('menu.sub');
+    }
     /**
      * Show interface.
      *
@@ -101,7 +105,7 @@ class MenuController extends Controller
 
     /**
      * Make a grid builder.
-     *
+     *展示
      * @return Grid
      */
     protected function grid()
@@ -115,6 +119,10 @@ class MenuController extends Controller
 
         return $grid;
     }
+    /*protected function grid(){
+        $arr=MenuModel::all()->toArray();
+        return view("menu.menulist",['data'=>$arr]);
+    }*/
 
     /**
      * Make a show builder.
