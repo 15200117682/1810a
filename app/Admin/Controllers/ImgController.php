@@ -48,7 +48,15 @@ class ImgController extends Controller
      */
     public function matermedo(Request $request){
         $name=$request->input('img_name');//获取名称
-        $img_url = $request->img_url->storeAs('images');//获取图片信息
+        //$img_url = $request->img_url->storeAs('images');//获取图片信息
+        
+        /**********图片名字*********/
+        $etc=$request->file;
+        $ext=$etc->getClientOriginalExtension();
+        $filename=md5(rand(1000,9999),time()).".".$ext;
+        $img_url=$request->file->storeAs('images/'.date("Y-m-d").$filename);
+        /**********图片名字*********/
+
         $img_type=$request->input('img_type');//获取类型
         $img_newold=$request->input('img_newold');//永久临时
         if($img_newold==1){/*临时素材*/
