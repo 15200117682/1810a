@@ -100,29 +100,46 @@ class ImgController extends Controller
         $access=getAccessToken();//获取access
         if($img_newold==1){
             $url="https://api.weixin.qq.com/cgi-bin/media/upload?access_token=$access&type=$in";
-
+            $data=curlPost($url,$post_data);
+            $datainfo=json_decode($data,true);//转数组
+            $img_media=$datainfo['media_id'];//media_id
+            $created_at=$datainfo['created_at'];//时间
+            if($img_media){
+                //加入数据库
+                $arr=[
+                    'img_name'=>$name,
+                    'img_url'=>$img_url,
+                    'img_media'=>$img_media,
+                    'img_time'=>$created_at,
+                    'img_type'=>$img_type,
+                    'img_newold'=>$img_newold
+                ];
+                $res=ImgModel::insertGetId($arr);
+                if(!$res){
+                    return "添加临时素材失败";
+                }
+            }
         }elseif($img_newold==2){
             $url="https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=$access&type=$in";
-        }
-        $data=curlPost($url,$post_data);
-        $datainfo=json_decode($data,true);//转数组
-        $img_media=$datainfo['media_id'];//media_id
-        //$created_at=$datainfo['created_at'];//时间
-        if($img_media){
-            //加入数据库
-            $arr=[
-                'img_name'=>$name,
-                'img_url'=>$img_url,
-                'img_media'=>$img_media,
-                'img_time'=>time(),
-                'img_type'=>$img_type,
-                'img_newold'=>$img_newold
-            ];
-            $res=ImgModel::insertGetId($arr);
-            if(!$res){
-                return "添加临时素材失败";
+            $data=curlPost($url,$post_data);
+            $datainfo=json_decode($data,true);//转数组
+            $img_media=$datainfo['media_id'];//media_id
+            if($img_media){
+                //加入数据库
+                $arr=[
+                    'img_name'=>$name,
+                    'img_url'=>$img_url,
+                    'img_media'=>$img_media,
+                    'img_time'=>time(),
+                    'img_type'=>$img_type,
+                    'img_newold'=>$img_newold
+                ];
+                $res=ImgModel::insertGetId($arr);
+                if(!$res){
+                    return "添加临时素材失败";
+                }
             }
-        }
+        }//调接口添加临时素材和永久素材
 
     }
 
