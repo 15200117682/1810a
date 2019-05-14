@@ -100,6 +100,7 @@ class ImgController extends Controller
         $access=getAccessToken();//获取access
         if($img_newold==1){
             $url="https://api.weixin.qq.com/cgi-bin/media/upload?access_token=$access&type=$in";
+
         }elseif($img_newold==2){
             $url="https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=$access&type=$in";
         }
@@ -113,7 +114,7 @@ class ImgController extends Controller
                 'img_name'=>$name,
                 'img_url'=>$img_url,
                 'img_media'=>$img_media,
-                'img_time'=>$created_at,
+                'img_time'=>time(),
                 'img_type'=>$img_type,
                 'img_newold'=>$img_newold
             ];
