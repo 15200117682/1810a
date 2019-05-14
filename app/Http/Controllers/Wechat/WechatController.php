@@ -62,20 +62,7 @@ class WechatController extends Controller
                 }
             }
         }elseif($MsgType=="image"){
-            $data=ImgModel::orderByRaw("RAND()")->first();//随机查询一条数据
-            $media_id=$data->img_media;
-            if($media_id){
-                $xml="<xml>
-                            <ToUserName><![CDATA[$FromUserName]]></ToUserName>
-                            <FromUserName><![CDATA[$ToUserName]]></FromUserName>
-                            <CreateTime>".time()."</CreateTime>
-                            <MsgType><![CDATA[image]]></MsgType>
-                            <Image>
-                            <MediaId><![CDATA[$media_id]]></MediaId>
-                            </Image>
-                        </xml>";
-                echo $xml;
-            }
+            $this->doutu($FromUserName,$ToUserName);
 
         }elseif($MsgType=="text"){
             $Content = $obj->Content;//获取文字内容
@@ -91,6 +78,7 @@ class WechatController extends Controller
         
     }
 
+    //表白
     public function biaobai($FromUserName,$ToUserName,$datainfo,$Content){
         if($datainfo['act_name']=="发表白"){
             $text="请填写要表白的内容";
@@ -141,6 +129,24 @@ class WechatController extends Controller
             }
             /*返回查询结果*/
             /************查询表白**************/
+        }
+    }
+
+    //斗图
+    public function doutu($FromUserName,$ToUserName){
+        $data=ImgModel::orderByRaw("RAND()")->first();//随机查询一条数据
+        $media_id=$data->img_media;
+        if($media_id){
+            $xml="<xml>
+                            <ToUserName><![CDATA[$FromUserName]]></ToUserName>
+                            <FromUserName><![CDATA[$ToUserName]]></FromUserName>
+                            <CreateTime>".time()."</CreateTime>
+                            <MsgType><![CDATA[image]]></MsgType>
+                            <Image>
+                            <MediaId><![CDATA[$media_id]]></MediaId>
+                            </Image>
+                        </xml>";
+            echo $xml;
         }
     }
 
@@ -243,7 +249,16 @@ class WechatController extends Controller
 
     //二级菜单创建
     public function menu(){
+        $datanull=MenuModel::all();
         $access=getAccessToken();//获取access_token
+        if($datanull==""){
+            $url="https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=$access";
+            $res=file_get_contents($url);
+            $errmsg=json_decode($res,true);
+            if($errmsg['errmag']=="ok"){
+                return redirect('/admin/menulist');
+            }
+        }//调用接口删除菜单
         $url="https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access";//调接口
         $arr=MenuModel::where(['p_id'=>0])->get()->toArray();//查询一级菜单
         $typeArr = ['click'=>'key','view'=>'url'];//数组类型
