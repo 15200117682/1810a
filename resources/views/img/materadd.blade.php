@@ -20,7 +20,7 @@
             <option value="1">临时素材</option>
             <option value="2">永久素材</option>
         </select>
-        <input type="file" name="img_url" style="width:10%;height:35px;"><br>
+        <input type="file" name="file" style="width:10%;height:35px;"><br>
         <input type="submit" style="color:#2b2b2b;background-color:#0d6aad;width:70px;height:40px;font-size:20px;border:none;"><br>
     </form>
     </body>
