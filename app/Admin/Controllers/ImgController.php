@@ -114,7 +114,7 @@ class ImgController extends Controller
                 'img_name'=>$name,
                 'img_url'=>$img_url,
                 'img_media'=>$img_media,
-                'img_time'=>time(),
+                'img_time'=>$created_at,
                 'img_type'=>$img_type,
                 'img_newold'=>$img_newold
             ];
