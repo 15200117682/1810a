@@ -25,6 +25,9 @@ Route::group([
     $router->post('/menumedo', 'MenuController@menumedo');
     $router->resource('menulist', MenuController::class);//用户管理
 
-
+    //群发消息
+//    $router->resource('/mass', MassController::class);//群发消息
+    $router->get('/mass/list', 'MassController@MassAll');
+    $router->post('/MassAllAdd', 'MassController@MassAllAdd');
 
 });
