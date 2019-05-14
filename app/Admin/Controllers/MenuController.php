@@ -143,7 +143,7 @@ class MenuController extends Controller
     {
         $grid = new Grid(new MenuModel);
 
-        $grid->menu_id('菜单id');
+        $grid->id('菜单id');
         $grid->menu_name('菜单名称');
         $grid->menu_type('菜单类型');
         $grid->menu_key('菜单key');
@@ -166,7 +166,7 @@ class MenuController extends Controller
     {
         $show = new Show(MenuModel::findOrFail($id));
 
-        $show->menu_id('Menu id');
+        $show->id('Menu id');
         $show->menu_name('Menu name');
         $show->menu_type('Menu type');
         $show->menu_key('Menu key');

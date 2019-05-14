@@ -133,7 +133,7 @@ class ImgController extends Controller
         $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
         $grid = new Grid(new ImgModel);
 
-        $grid->img_id('编号');
+        $grid->id('编号');
         $grid->img_name('图片名称');
         $grid->img_url('图片')->image("$url",100,100);
         $grid->img_media('media');
@@ -154,7 +154,7 @@ class ImgController extends Controller
     {
         $show = new Show(ImgModel::findOrFail($id));
 
-        $show->img_id('Img id');
+        $show->id('Img id');
         $show->img_name('Img name');
         $show->img_url('Img url');
         $show->img_media('Img media');

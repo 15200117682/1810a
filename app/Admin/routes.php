@@ -13,16 +13,20 @@ Route::group([
     $router->get('/', 'HomeController@index')->name('admin.home');
 
     //用户管理
-    $router->get('/users', 'UsersController@index')->name('admin.home');//用户管理
+    $router->resource('users', UsersController::class);
 
     //素材管理
-    $router->get('/materadd', 'ImgController@materadd')->name('admin.Img');//上传素材页面
-    $router->post('/matermedo', 'ImgController@matermedo')->name('admin.Img');//上传素材
-    $router->get('/materlist', 'ImgController@index')->name('admin.Img');//素材展示
+    $router->get('/materadd', 'ImgController@materadd');//上传素材页面
+    $router->post('/matermedo', 'ImgController@matermedo');//上传素材
+    $router->resource('materlist', ImgController::class);//素材展示
+
+
 
     //菜单管理
-    $router->get('/menuadd', 'MenuController@menuadd')->name('admin.home');//用户管理
-    $router->post('/menumedo', 'MenuController@menumedo')->name('admin.home');//用户管理
-    $router->get('/menulist', 'MenuController@index')->name('admin.home');//用户管理
+    $router->get('/menuadd', 'MenuController@menuadd');
+    $router->post('/menumedo', 'MenuController@menumedo');
+    $router->resource('menulist', MenuController::class);//用户管理
+
+
 
 });

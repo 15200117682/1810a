@@ -14,7 +14,7 @@
         菜单父类：<select name="p_id" style="width:10%;height:30px;">
             <option value="0">--请选择所属菜单--</option>
             <?php foreach($data as $k=>$v){ ?>
-            <option  value="<?php echo $v['menu_id'] ?>"><?php echo $v['menu_name'] ?></option>
+            <option  value="<?php echo $v['id'] ?>"><?php echo $v['menu_name'] ?></option>
             <?php } ?>
         </select><br><br>
         菜单类型：<input type="text" name="menu_type" style="width:10%;height:35px;" placeholder="请选择菜单类型"><br><br>

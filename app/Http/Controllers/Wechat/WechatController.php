@@ -266,7 +266,7 @@ class WechatController extends Controller
         foreach($arr as $key=>$value){
             if(empty($value['menu_type'])&&empty($value['menu_key'])){//有二级菜单的
                 $data['button'][$key]['name'] = $value['menu_name'];//二级菜单的名字
-                $dataInfo = MenuModel::where(['p_id'=>$value['menu_id']])->get()->toArray();
+                $dataInfo = MenuModel::where(['p_id'=>$value['id']])->get()->toArray();
                 foreach ($dataInfo as $k => $v) {
                     $data['button'][$key]['sub_button'][] = [
                         'type'=> $v['menu_type'],
