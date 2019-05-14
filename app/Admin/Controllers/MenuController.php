@@ -115,7 +115,7 @@ class MenuController extends Controller
                 'menu_key'=>$data['menu_key'],
             ];//组合数据
             $res=MenuModel::insertGetId($arr);//入库
-        }else{//如果是不是顶级分类，把属于它的父类type和key删除，然后执行添加
+        }else{//如果不是顶级分类，执行添加
             $count=MenuModel::where(['p_id'=>$data['p_id']])->get()->count();//查询已有菜单的数量
             if($count>=5){
                 return "菜单太多，无法添加";
@@ -128,7 +128,7 @@ class MenuController extends Controller
             ];//拼装数据
             $res=MenuModel::insertGetId($arr);//执行添加的sql
         }
-        if($res){//问题
+        if($res){
             return redirect('/admin/menulist');
         }
 
