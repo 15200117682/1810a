@@ -20,8 +20,6 @@ Route::group([
     $router->post('/matermedo', 'ImgController@matermedo');//上传素材
     $router->resource('materlist', ImgController::class);//素材展示
 
-
-
     //菜单管理
     $router->get('/menuadd', 'MenuController@menuadd');
     $router->post('/menumedo', 'MenuController@menumedo');

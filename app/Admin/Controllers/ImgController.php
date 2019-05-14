@@ -47,15 +47,51 @@ class ImgController extends Controller
      * @param Request $request
      */
     public function matermedo(Request $request){
-        $name=$request->input('img_name');//获取图片名称
-        $img_url = $request->img_url->store('images');//获取图片信息
+        $name=$request->input('img_name');//获取名称
+        $img_url = $request->img_url->storeAs('images');//获取图片信息
+        $img_type=$request->input('img_type');//获取类型
+        $img_newold=$request->input('img_newold');//永久临时
+        if($img_newold==1){/*临时素材*/
+            if($img_type==1){//存入图片
+                $this->img($img_url,$name,$img_type,$img_newold);
+            }elseif($img_type==2){//存入语音
+                $this->img($img_url,$name,$img_type,$img_newold);
+            }elseif($img_type==3){//存入视频
+                $this->img($img_url,$name,$img_type,$img_newold);
+            }
+        }elseif($img_newold==2){/*永久素材*/
+            if($img_type==1){//存入图片
+                $this->img($img_url,$name,$img_type,$img_newold);
+            }elseif($img_type==2){//存入语音
+                $this->img($img_url,$name,$img_type,$img_newold);
+            }elseif($img_type==3){//存入视频
+                $this->img($img_url,$name,$img_type,$img_newold);
+            }
+        }
+
+
+    }
+
+    //素材上传的方法
+    public function img($img_url,$name,$img_type,$img_newold){
         $media_path=public_path()."/".$img_url;//获取绝对路径并存入laravel
         $imgPath = new \CURLFile($media_path);//通过CURLFile处理
         $post_data = [
             'media'=>$imgPath  //素材路径
         ];
+        if($img_type==1){//图片
+            $in="image";
+        }elseif($img_type==2){//语音
+            $in="voice";
+        }elseif($img_type==3){//视频
+            $in="video";
+        }
         $access=getAccessToken();//获取access
-        $url="https://api.weixin.qq.com/cgi-bin/media/upload?access_token=$access&type=image";
+        if($img_newold==1){
+            $url="https://api.weixin.qq.com/cgi-bin/media/upload?access_token=$access&type=$in";
+        }elseif($img_newold==2){
+            $url="https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=$access&type=$in";
+        }
         $data=curlPost($url,$post_data);
         $datainfo=json_decode($data,true);//转数组
         $img_media=$datainfo['media_id'];//media_id
@@ -66,15 +102,15 @@ class ImgController extends Controller
                 'img_name'=>$name,
                 'img_url'=>$img_url,
                 'img_media'=>$img_media,
-                'img_time'=>$created_at
+                'img_time'=>$created_at,
+                'img_type'=>$img_type,
+                'img_newold'=>$img_newold
             ];
             $res=ImgModel::insertGetId($arr);
             if($res){
                 return redirect('/admin/materlist');
             }
         }
-
-
     }
 
 
