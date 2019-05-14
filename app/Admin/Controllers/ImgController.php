@@ -107,7 +107,7 @@ class ImgController extends Controller
         $data=curlPost($url,$post_data);
         $datainfo=json_decode($data,true);//转数组
         $img_media=$datainfo['media_id'];//media_id
-        $created_at=$datainfo['created_at'];//时间
+        //$created_at=$datainfo['created_at'];//时间
         if($img_media){
             //加入数据库
             $arr=[
