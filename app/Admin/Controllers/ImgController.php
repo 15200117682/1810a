@@ -80,8 +80,7 @@ class ImgController extends Controller
                 $this->img($img_url,$name,$img_type,$img_newold);
             }
         }
-
-
+        return redirect('/admin/materlist');
     }
 
     //素材上传的方法
@@ -119,10 +118,11 @@ class ImgController extends Controller
                 'img_newold'=>$img_newold
             ];
             $res=ImgModel::insertGetId($arr);
-            if($res){
-                return redirect('/admin/materlist');
+            if(!$res){
+                return "添加临时素材失败";
             }
         }
+
     }
 
 

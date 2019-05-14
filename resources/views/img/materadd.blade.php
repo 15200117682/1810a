@@ -19,8 +19,8 @@
         <select name="img_newold" id="" style="width:10%;height:35px;">
             <option value="1">临时素材</option>
             <option value="2">永久素材</option>
-        </select>
-        <input type="file" name="file" style="width:10%;height:35px;"><br>
+        </select><br><br>
+        <input type="file" name="file" style="width:20%;height:35px;font-size:16px;border:none;"><br>
         <input type="submit" style="color:#2b2b2b;background-color:#0d6aad;width:70px;height:40px;font-size:20px;border:none;"><br>
     </form>
     </body>
