@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Wechat;
 
+use App\Model\CodeModel;
 use App\Model\ImgModel;
 use App\Model\MenuModel;
 use App\Model\UsersModel;
@@ -35,13 +36,15 @@ class WechatController extends Controller
         $CreateTime = $obj->CreateTime;//获取时间
         $MsgType = $obj->MsgType;//获取数据类型
         $Event = $obj->Event;//获取时间类型
+
+        $EventKey=$obj->EventKey;//通过渠道关注返回的key值
         if($MsgType=="event"){
             $data=openId($FromUserName);//获取用户信息
             if($Event=="subscribe"){
                 //用户关注后用户信息入库
-                $this->UserDb($FromUserName,$ToUserName,$data);//用户关注/*79*/
+                $this->UserDb($FromUserName,$ToUserName,$data,$EventKey);//用户关注/*79*/
             }elseif($Event=="unsubscribe"){
-                $this->UserDbNo($FromUserName,$data);
+                $this->UserDbNo($FromUserName);
             }elseif($Event=="CLICK"){
                 $EventKey=$obj->EventKey;//获取事件信息
                 //查表白返回数据
@@ -306,7 +309,7 @@ class WechatController extends Controller
      * @param $ToUserName
      * @param $data
      */
-    public function UserDb($FromUserName,$ToUserName,$data){
+    public function UserDb($FromUserName,$ToUserName,$data,$EventKey){
         $first=UsersModel::where(["openid"=>$FromUserName])->first();
         if($first){//用户关注过
             $arr=[
@@ -319,17 +322,40 @@ class WechatController extends Controller
                 echo $xml;exit;
             }
         }else{//用户之前未关注过
-            $array = array(
-                "openid" => $data['openid'],//用户id
-                "nickname" => $data['nickname'],//用户名称
-                "city" => $data['city'],//用户所在城市
-                "province" => $data['province'],//用户所在区
-                "country" => $data['country'],//用户所在国家
-                "headimgurl" => $data['headimgurl'],//用户头像
-                "subscribe_time" => $data['subscribe_time'],//用户时间
-                "sex" => $data['sex'],//用户性别
-                "status"=>1
-            );//设置数组形式的数据类型
+            if($EventKey==""){
+                $array = array(
+                    "openid" => $data['openid'],//用户id
+                    "nickname" => $data['nickname'],//用户名称
+                    "city" => $data['city'],//用户所在城市
+                    "province" => $data['province'],//用户所在区
+                    "country" => $data['country'],//用户所在国家
+                    "headimgurl" => $data['headimgurl'],//用户头像
+                    "subscribe_time" => $data['subscribe_time'],//用户时间
+                    "sex" => $data['sex'],//用户性别
+                    "status"=>1
+                );//设置数组形式的数据类型
+            }else{
+                $key=substr($EventKey,8);
+                $array = array(
+                    "openid" => $data['openid'],//用户id
+                    "nickname" => $data['nickname'],//用户名称
+                    "city" => $data['city'],//用户所在城市
+                    "province" => $data['province'],//用户所在区
+                    "country" => $data['country'],//用户所在国家
+                    "headimgurl" => $data['headimgurl'],//用户头像
+                    "subscribe_time" => $data['subscribe_time'],//用户时间
+                    "sex" => $data['sex'],//用户性别
+                    "status"=>1,//状态
+                    "code_key"=>$key//code_key
+                );//设置数组形式的数据类型
+                //把渠道表关注人数改变
+                $number=CodeModel::where(['code_key'=>$key])->first();
+                $arr=[
+                    'code_number'=>$number['code_number']+1
+                ];
+                CodeModel::where(['code_key'=>$key])->update($arr);
+            }
+
             $res=UsersModel::insertGetId($array);
             if($res){
                 //关注事件回复消息
@@ -387,10 +413,16 @@ class WechatController extends Controller
      * @param $FromUserName
      * @param $data
      */
-    public function UserDbNo($FromUserName,$data){
+    public function UserDbNo($FromUserName){
         $arr=[
             "status"=>0
         ];//修改数据
+        $one=UsersModel::where(['openid' => $FromUserName])->first();//执行sql
+        $number=$one['code_key'];
+        $arr2=[
+            'code_number'=>$one['code_number']+1
+        ];
+        CodeModel::where(['code_key'=>$number])->update($arr2);
         UsersModel::where(['openid' => $FromUserName])->update($arr);//执行sql
         echo "SUCCESS";
     }
