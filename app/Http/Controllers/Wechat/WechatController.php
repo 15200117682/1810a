@@ -397,6 +397,7 @@ class WechatController extends Controller
 
     //获取用户列表
     public function userList(){
+        exit;
         $access=getAccessToken();
         $url="https://api.weixin.qq.com/cgi-bin/user/get?access_token=$access&next_openid=";
         $dataOpenId=file_get_contents($url);
