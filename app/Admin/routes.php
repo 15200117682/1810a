@@ -30,4 +30,9 @@ Route::group([
     $router->get('/mass/list', 'MassController@MassAll');
     $router->post('/MassAllAdd', 'MassController@MassAllAdd');
 
+    //二维码渠道
+    $router->get('/codeadd', 'CodeController@codeadd');//展示添加页面
+    $router->post('/codemedo', 'CodeController@codemedo');//执行添加渠道
+    $router->resource('/codelist', CodeController::class);//督导管理
+
 });
