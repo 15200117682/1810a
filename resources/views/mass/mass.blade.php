@@ -2,6 +2,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <tr>
         <td>选择群发</td>
+        <td>粉丝昵称</td>
         <td style="font-weight:bold;">openid</td>
     </tr>
     @if($data=="")
@@ -12,8 +13,9 @@
     @else
         @foreach($data as $k=>$v)
             <tr>
-                <td><input type="checkbox" class="checkbox" value="{{$v}}" name="vehicle"></td>
-                <td>{{$v}}</td>
+                <td><input type="checkbox" class="checkbox" value="{{$v['openid']}}" name="vehicle"></td>
+                <td>{{$v['nickname']}}</td>
+                <td>{{$v['openid']}}</td>
             </tr>
         @endforeach
     @endif

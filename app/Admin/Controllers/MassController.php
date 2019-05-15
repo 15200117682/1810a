@@ -21,12 +21,7 @@ class MassController extends Controller
      */
     public function MassAll(Content $content)
     {
-//        echo 111;exit;
-        $access_token =getAccessToken();//获取access_token
-        $url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=' . $access_token . '&next_openid=';//获取用户列表
-        $data = json_decode(file_get_contents($url), true);//file_get_contents
-
-        $data = $data['data']['openid'];//获取所有openid
+        $data=UsersModel::all()->toArray();
         return $content
             ->header('微信')
             ->description('群发列表')
