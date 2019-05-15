@@ -22,11 +22,11 @@ class MassController extends Controller
     public function MassAll(Content $content)
     {
 //        echo 111;exit;
-        $access_token =getAccessToken();
-        $url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=' . $access_token . '&next_openid=';
-        $data = json_decode(file_get_contents($url), true);
+        $access_token =getAccessToken();//获取access_token
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=' . $access_token . '&next_openid=';//获取用户列表
+        $data = json_decode(file_get_contents($url), true);//file_get_contents
 
-        $data = $data['data']['openid'];
+        $data = $data['data']['openid'];//获取所有openid
         return $content
             ->header('微信')
             ->description('群发列表')
@@ -38,11 +38,11 @@ class MassController extends Controller
      */
     public function MassAllAdd()
     {
-        $openid = $_POST['openid'];
-        $media_id = $_POST['media_id'];
-        $type = $_POST['type'];
-        $access_token =getAccessToken();
-        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=$access_token";
+        $openid = $_POST['openid'];//接受openid
+        $media_id = $_POST['media_id'];//接受发送的文本
+        $type = $_POST['type'];//接受类型
+        $access_token =getAccessToken();//access_token
+        $url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=$access_token";//调接口
         if ($type == "text") {
             $data = [
                 "touser" => $openid,
@@ -51,7 +51,7 @@ class MassController extends Controller
                     "content" => "$media_id"
                 ]
             ];
-        }
+        }//如果是文本，组合数据
         /*else if ($type == "mpnews") {
             $data = [
                 "touser" => $openid,
@@ -81,11 +81,10 @@ class MassController extends Controller
                 "msgtype" => "$type"
             ];
         }*/
-        $data=json_encode($data,true);
-        $data=curlPost($url,$data);
-        $data=json_decode($data,true);
-        var_dump($data);exit;
-        if ($data['errcode'] == 0) {
+        $data=json_encode($data,true);//转换json数据
+        $data=curlPost($url,$data);//请求接口
+        $data=json_decode($data,true);//返回数据转数组类型
+        if ($data['errcode'] == 0) {//正确返回结果
             return 'ok';
         }
     }
