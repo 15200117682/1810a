@@ -395,4 +395,31 @@ class WechatController extends Controller
         echo "SUCCESS";
     }
 
+    //获取用户列表
+    public function userList(){
+        $access=getAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/user/get?access_token=$access&next_openid=";
+        $dataOpenId=file_get_contents($url);
+        $dataOpenId=json_decode($dataOpenId,true);
+        $openid=$dataOpenId['data']['openid'];
+        foreach($openid as $key=>$value){
+            $data=openId($value);
+            $array = array(
+                "openid" => $data['openid'],//用户id
+                "nickname" => $data['nickname'],//用户名称
+                "city" => $data['city'],//用户所在城市
+                "province" => $data['province'],//用户所在区
+                "country" => $data['country'],//用户所在国家
+                "headimgurl" => $data['headimgurl'],//用户头像
+                "subscribe_time" => $data['subscribe_time'],//用户时间
+                "sex" => $data['sex'],//用户性别
+                "status"=>1
+            );//设置数组形式的数据类型
+            $res=UsersModel::insertGetId($array);
+        }
+        if($res){
+            echo "添加用户信息入库成功";
+        }
+    }
+
 }

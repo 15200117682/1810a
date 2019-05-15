@@ -21,6 +21,7 @@ Route::get("/info",function (){
 
 Route::get("/wechat/chat","Wechat\WechatController@getWechat");//首次接入测试
 Route::post("/wechat/chat","Wechat\WechatController@WXEvent");//post接入测试
+Route::any("/wechat/openid","Wechat\WechatController@userList");//post接入测试
 
 Route::get("/love","Love\LoveController@getWechat");
 Route::post("/love","Love\LoveController@WXEvent");
