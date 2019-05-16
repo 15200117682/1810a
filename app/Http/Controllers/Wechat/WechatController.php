@@ -315,6 +315,8 @@ class WechatController extends Controller
             $arr=[
                 "status"=>1
             ];//修改数据
+            $key=substr($EventKey,8);
+            CodeModel::where(['code_key'=>$key])->increment("code_number");
             $res=UsersModel::where(['openid' => $FromUserName])->update($arr);//执行sql
             if($res) {
                 $text = "欢迎回来" . $data['nickname'];
