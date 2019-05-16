@@ -415,7 +415,7 @@ class WechatController extends Controller
         ];//修改数据
         $one=UsersModel::where(['openid' => $FromUserName])->first();//执行sql
         $number=$one['code_key'];
-        CodeModel::where(['code_key'=>$number])->increment("code_number");
+        CodeModel::where(['code_key'=>$number])->decrement("code_number");
         UsersModel::where(['openid' => $FromUserName])->update($arr);//执行sql
         echo "SUCCESS";
     }
