@@ -349,11 +349,7 @@ class WechatController extends Controller
                     "code_key"=>$key//code_key
                 );//设置数组形式的数据类型
                 //把渠道表关注人数改变
-                $number=CodeModel::where(['code_key'=>$key])->first();
-                $arr=[
-                    'code_number'=>$number['code_number']+1
-                ];
-                CodeModel::where(['code_key'=>$key])->update($arr);
+                CodeModel::where(['code_key'=>$key])->increment("code_number");
             }
 
             $res=UsersModel::insertGetId($array);
@@ -419,10 +415,7 @@ class WechatController extends Controller
         ];//修改数据
         $one=UsersModel::where(['openid' => $FromUserName])->first();//执行sql
         $number=$one['code_key'];
-        $arr2=[
-            'code_number'=>$one['code_number']+1
-        ];
-        CodeModel::where(['code_key'=>$number])->update($arr2);
+        CodeModel::where(['code_key'=>$number])->increment("code_number");
         UsersModel::where(['openid' => $FromUserName])->update($arr);//执行sql
         echo "SUCCESS";
     }
