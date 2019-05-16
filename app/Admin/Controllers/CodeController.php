@@ -29,6 +29,28 @@ class CodeController extends Controller
             ->body($this->grid());
     }
 
+    //渠道二维码关注统计
+    public function code_ure(Content $content)
+    {
+        $data=CodeModel::all()->toArray();
+        $name='';
+        $number='';
+        foreach ($data as $key=>$values){
+            $name.="'".$values['code_name']."',";
+            $number.=$values['code_number'].",";
+        }
+        $name=rtrim($name,",");
+        $number=rtrim($number,",");
+        $dataInfo=[
+            'name'=>$name,
+            'number'=>$number
+        ];
+        return $content
+            ->header('Index')
+            ->description('description')
+            ->body(view("code.codeure",['data'=>$dataInfo]));
+    }
+
     //二维码添加
     public function codeadd(Content $content)
     {
