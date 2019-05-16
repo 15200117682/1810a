@@ -158,9 +158,7 @@ class CodeController extends Controller
         $grid->id('二维码编号');
         $grid->code_name('二维码名字');
         $grid->code_status('二维码状态状态');
-        $grid->code_img('二维码图片')->display(function($code_img){
-            return "<img src='$code_img' style='width:100px;height:100px;'>";
-        });
+        $grid->code_img('二维码')->view('code.content');//展示二维码 点击放大
         $grid->code_number('关注人数');
 
         return $grid;
