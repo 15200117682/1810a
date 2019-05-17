@@ -9,7 +9,6 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
@@ -27,37 +26,6 @@ class TagController extends Controller
             ->header('Index')
             ->description('description')
             ->body($this->grid());
-    }
-
-    public function tagadd(Content $content)
-    {
-        return $content
-            ->header('Index')
-            ->description('description')
-            ->body(view("tag.tagadd"));
-    }
-
-    //执行标签添加
-    public function tagmedo(Request $request){
-        $tag_name=$request->input();
-        $tag_name=$tag_name['tag_name'];
-        $access=getAccessToken();
-        $url="https://api.weixin.qq.com/cgi-bin/tags/create?access_token=$access";
-        $data=[];
-        $data['tag']['name']=$tag_name;
-        $datainfo=json_encode($data,JSON_UNESCAPED_UNICODE);
-        $json=curlPost($url,$datainfo);
-        $json=json_decode($json,true);
-        $id=$json['tag']['id'];
-        $name=$json['tag']['name'];
-        $arr=[
-            'tag_name'=>$name,
-            'tag_wx_id'=>$id
-        ];
-        $res=TagModel::insertGetId($arr);
-        if($res){
-            return redirect('/admin/taglist');
-        }
     }
 
     /**
@@ -112,10 +80,10 @@ class TagController extends Controller
     protected function grid()
     {
         $grid = new Grid(new TagModel);
-        $grid->id('标签id');
-        $grid->tag_name('标签名称');
-        $grid->tag_wx_id('标签在微信上的id');
 
+        $grid->id('Id');
+        $grid->tag_name('Tag name');
+        $grid->tag_wx_id('Tag wx id');
 
         return $grid;
     }
@@ -129,10 +97,10 @@ class TagController extends Controller
     protected function detail($id)
     {
         $show = new Show(TagModel::findOrFail($id));
-        $show->id('id');
-        $show->tag_name('tag name');
-        $show->tag_wx_id('tag wx id');
 
+        $show->id('Id');
+        $show->tag_name('Tag name');
+        $show->tag_wx_id('Tag wx id');
 
         return $show;
     }
@@ -145,11 +113,63 @@ class TagController extends Controller
     protected function form()
     {
         $form = new Form(new TagModel);
-        $form->id('id');
-        $form->tag_name('tag name');
-        $form->tag_wx_id('tag wx id');
 
+        $form->text('tag_name', 'Tag name');
+        $form->number('tag_wx_id', 'Tag wx id');
 
         return $form;
+    }
+
+
+    public function tagadd(Content $content)
+    {
+        return $content
+            ->header('Index')
+            ->description('description')
+            ->body(view("tag.tagadd"));
+    }
+
+    //执行标签添加
+    public function tagmedo(Request $request){
+        $tag_name=$request->input();
+        $tag_name=$tag_name['tag_name'];
+        $access=getAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/tags/create?access_token=$access";
+        $data=[];
+        $data['tag']['name']=$tag_name;
+        $datainfo=json_encode($data,JSON_UNESCAPED_UNICODE);
+        $json=curlPost($url,$datainfo);
+        $json=json_decode($json,true);
+        $id=$json['tag']['id'];
+        $name=$json['tag']['name'];
+        $arr=[
+            'tag_name'=>$name,
+            'tag_wx_id'=>$id
+        ];
+        $res=TagModel::insertGetId($arr);
+        if($res){
+            return redirect('/admin/taglist');
+        }
+    }
+
+    public function tag_del(){
+        $access=getAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/tags/get?access_token=$access";
+        $data=file_get_contents($url);
+        $data=json_decode($data,true);
+        var_dump($data);
+        foreach($data as $key=>$value){
+            foreach($value as $k=>$v){
+                if($v['id']>100){
+                    $url2="https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=$access";
+                    $in=[];
+                    $in['tag']['id']=$v['id'];
+                    $in=json_encode($in,true);
+                    $json=curlPost($url2,$in);
+                }
+            }
+        }
+        var_dump($json);
+
     }
 }

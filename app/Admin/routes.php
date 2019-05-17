@@ -39,5 +39,6 @@ Route::group([
     //标签管理
     $router->get('/tagadd', 'TagController@tagadd');//展示添加标签
     $router->post('/tagmedo', 'TagController@tagmedo');//展示添加标签
+    $router->get('/tag_del', 'TagController@tag_del');//标签信息
     $router->resource('/taglist', TagController::class);//渠道管理
 });
