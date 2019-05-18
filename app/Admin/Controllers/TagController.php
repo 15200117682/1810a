@@ -9,6 +9,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
+
 
 class TagController extends Controller
 {
@@ -120,6 +122,29 @@ class TagController extends Controller
         return $form;
     }
 
+    public function destroy($id){
+        $access=getAccessToken();
+        $data=TagModel::where(['id'=>$id])->first()->toArray();//查去数据库数据
+        $tag_wx_id=$data['tag_wx_id'];
+        $url2="https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=$access";//调接口
+        $in=[];//空数组
+        $in['tag']['id']=$tag_wx_id;//post数据
+        $in=json_encode($in,true);//json数据转换
+        $json=curlPost($url2,$in);//执行接口
+        $res=json_decode($json,true);//转数组
+        if($res){
+            $res2=TagModel::where(['tag_wx_id'=>$tag_wx_id])->delete();
+            if($res2){
+                return redirect('/admin/taglist');
+            }else{
+                return "本地数据删除失败";
+            }
+        }else{
+            return "wechat服务器数据删除失败";
+        }
+
+    }
+
 
     public function tagadd(Content $content)
     {
@@ -157,7 +182,7 @@ class TagController extends Controller
         $url="https://api.weixin.qq.com/cgi-bin/tags/get?access_token=$access";
         $data=file_get_contents($url);
         $data=json_decode($data,true);
-        var_dump($data);
+        //var_dump($data);exit;
         foreach($data as $key=>$value){
             foreach($value as $k=>$v){
                 if($v['id']>100){
