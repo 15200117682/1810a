@@ -33,6 +33,10 @@ Route::any("/wechat/menu","Wechat\WechatController@menu");//自定义菜单
 Route::any("/wechat/materadd","Wechat\WechatController@materadd");//添加临时素材
 Route::any("/wechat/materlist","Wechat\WechatController@materlist");//获取临时素材
 
+//模拟测试
+Route::get("/ceshi/getce","CeShi\CeShiController@getCe");//首次接入测试
+Route::post("/ceshi/getce","CeShi\CeShiController@getWechat");//post接入测试
+
 
 
 
