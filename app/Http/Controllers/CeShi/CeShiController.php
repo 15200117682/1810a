@@ -42,7 +42,7 @@ class CeShiController extends Controller
         }elseif($MsgType=="text"){
             $this->userText($FromUserName,$Content);
         }
-        echo "SUCCESS";
+        //echo "SUCCESS";
     }
 
     //获取access_token
@@ -93,6 +93,5 @@ class CeShiController extends Controller
         $arr=json_encode($arr,JSON_UNESCAPED_UNICODE);
         $json=curlPost($url,$arr);
         $json=json_decode($json,true);
-        var_dump($json);exit;
     }
 }
