@@ -64,13 +64,12 @@ class CeShiController extends Controller
     
     //用户回复
     public function userText($FromUserName,$Content){
-        var_dump($FromUserName);exit;
         $data=GoodsModel::where(['goods_name'=>$Content])->first();//随机查询一条数据
         $data=json_decode($data,true);
         $access=$this->AccesToken();
         $url="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$access";
         $arr=[
-            "touser"=>$FromUserName,
+            "touser"=>(string)$FromUserName,
             "template_id"=>"S1Cfgg1rNM2E9FlwFX6dTOaFcdHO7L9ESO1VXhJrzBg",
             "data"=>[
                 "first"=>[
@@ -91,7 +90,7 @@ class CeShiController extends Controller
                 ],
             ]
         ];
-        var_dump($arr);exit;
+        $arr=json_encode($arr,JSON_UNESCAPED_UNICODE);
         $json=curlPost($url,$arr);
         $json=json_decode($json,true);
     }
