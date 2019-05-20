@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CeShi;
 
 use App\Model\GoodsModel;
+use App\Model\TagModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
@@ -45,8 +46,42 @@ class CeShiController extends Controller
         //echo "SUCCESS";
     }
 
+    //创建标签
+    public function biaoqian(Request $request){
+        $name=$request->input();
+        $access=getAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/tags/get?access_token=$access";
+        $datainfo=file_get_contents($url);
+        $datainfo=json_decode($datainfo,true);//获取所有标签
+        foreach($datainfo as $key=>$value){
+            foreach($value as $k=>$v){
+                if($v['name']==$name){//如果标签名微信已经有，则无法添加
+                    return "标签已经存在，无法新建";
+                }else{//否则添加标签
+                    $url2="https://api.weixin.qq.com/cgi-bin/tags/create?access_token=$access";
+                    $data=[];
+                    $data['tag']['name']=$name['name'];
+                    $data=json_encode($data,JSON_UNESCAPED_UNICODE);
+                    $json=curlPost($url2,$data);
+                    $json=json_decode($json,true);
+                    $id=$json['tag']['id'];
+                    $name=$json['tag']['name'];
+                    $arr=[
+                        'tag_name'=>$name,
+                        'tag_wx_id'=>$id
+                    ];
+                    $res=TagModel::insertGetId($arr);
+                    if($res){
+                        return "添加标签成功";
+                    }
+                }
+            }
+        }
+
+    }
+
     //获取access_token
-    public function AccesToken(){
+    public function AccessToken(){
         $key="access_token";
         $token=Redis::get("access_token");
         if($token){
@@ -66,7 +101,7 @@ class CeShiController extends Controller
     public function userText($FromUserName,$Content){
         $data=GoodsModel::where(['goods_name'=>$Content])->first();//随机查询一条数据
         $data=json_decode($data,true);
-        $access=$this->AccesToken();
+        $access=$this->AccessToken();
         $url="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$access";
         $arr=[
             "touser"=>(string)$FromUserName,
@@ -92,6 +127,6 @@ class CeShiController extends Controller
         ];
         $arr=json_encode($arr,JSON_UNESCAPED_UNICODE);
         $json=curlPost($url,$arr);
-        $json=json_decode($json,true);
+        json_decode($json,true);
     }
 }

@@ -36,6 +36,9 @@ Route::any("/wechat/materlist","Wechat\WechatController@materlist");//获取临�
 //模拟测试
 Route::get("/ceshi/getce","CeShi\CeShiController@getCe");//首次接入测试
 Route::post("/ceshi/getce","CeShi\CeShiController@getWechat");//post接入测试
+Route::get("/ceshi/access_token","CeShi\CeShiController@AccessToken");//access_token
+Route::any("/ceshi/biaoqian{name?}","CeShi\CeShiController@biaoqian");//access_token
+
 
 
 

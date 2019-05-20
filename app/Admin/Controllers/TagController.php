@@ -178,11 +178,11 @@ class TagController extends Controller
     }
 
     public function tag_del(){
+        die;
         $access=getAccessToken();
         $url="https://api.weixin.qq.com/cgi-bin/tags/get?access_token=$access";
         $data=file_get_contents($url);
         $data=json_decode($data,true);
-        //var_dump($data);exit;
         foreach($data as $key=>$value){
             foreach($value as $k=>$v){
                 if($v['id']>100){
