@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Model\TagModel;
 use App\Http\Controllers\Controller;
+use App\Model\TagOpenModel;
 use App\Model\UsersModel;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -122,7 +123,18 @@ class TagController extends Controller
                     $openid
             ],
             "tagid" => $tag_wx_id
-        ];
+        ];//微信服务器的入标签数据
+        $insertGetId=[];
+        /**讲标签都存入数据库*****************/
+        foreach($openid as $k=>$v){
+            $v=trim($v,"\"");
+            $insertGetId[]=[
+                'tag_wx_id'=>$tag_wx_id,
+                'openid'=>$v
+            ];
+        }
+        TagOpenModel::insert($insertGetId);
+        /**讲标签都存入数据库*****************/
         $datainfo = json_encode($datainfo, true);//转换json数据
         $json = curlPost($url, $datainfo);//curlpost使用接口
         $res = json_decode($json, true);//转换数组数据
@@ -156,6 +168,8 @@ class TagController extends Controller
         $access = getAccessToken();//access_token
         $data = TagModel::where(['id' => $id])->first()->toArray();//查去数据库数据
         $tag_wx_id = $data['tag_wx_id'];//获取微信id
+        /**删除关联表中的数据**/
+        TagOpenModel::where(['tag_wx_id'=>$tag_wx_id])->delete();
         $url2 = "https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=$access";//调接口
         $in = [];//空数组
         $in['tag']['id'] = $tag_wx_id;//post数据

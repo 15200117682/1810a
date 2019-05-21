@@ -150,4 +150,8 @@ class CeShiController extends Controller
         $datainfo=json_decode($datainfo,true);
         dd($datainfo);exit;
     }
+
+    public function button(){
+        return view("ceshi.button");
+    }
 }
