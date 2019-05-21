@@ -30,8 +30,8 @@
                 <img src="/images/imgs/logo_z.svg" alt="" class="">
 
                 <div class="login_tags b_clear">
-                    <span class="top_tag l_float active" onClick="PwdLogin()">密码登录</span>
-                    <span class="top_tag r_float" onClick="QrcodeLogin()">扫码登录</span>
+                    <span class="top_tag l_float active" style="cursor:pointer" onClick="PwdLogin()">密码登录</span>
+                    <span class="top_tag r_float" style="cursor:pointer" onClick="QrcodeLogin()">扫码登录</span>
                 </div>
             </div>
             <div class="login_con">
@@ -81,7 +81,6 @@
 
         </div>
         <div class="login_ad l_float" id="AdImg">
-            <img src="/images/imgs/timg.jpg" alt="">
             <a href="">查看详情</a>
         </div>
     </div>
