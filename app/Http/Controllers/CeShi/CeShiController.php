@@ -133,7 +133,6 @@ class CeShiController extends Controller
     public function auth(){
         $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
         $redirect_uri="$url/ceshi/authpage";
-        var_dump($redirect_uri);exit;
         $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=". env('WX_APPID')."&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
         header("location:".$url);
     }
