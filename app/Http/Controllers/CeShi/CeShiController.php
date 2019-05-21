@@ -131,6 +131,18 @@ class CeShiController extends Controller
     }
 
     public function auth(){
-        echo 111;
+        $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
+        $redirect_uri="$url/ceshi/authpage";
+        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=". env('WX_APPID')."&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+        header("location:".$url);
+    }
+
+    //授权跳转页面
+    public function authpage(Request $request){
+        $code=$request->input('code');
+        $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=". env('WX_APPID')."&secret=". env('WX_APPSECRET')."&code=$code&grant_type=authorization_code";
+        $data=file_get_contents($url);
+        $data=json_decode($data,true);
+        dd($data);exit;
     }
 }
