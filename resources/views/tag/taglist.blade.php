@@ -56,7 +56,7 @@
     $('#sub').click(function(){
         openid = [];
         $("input[name='vehicle']:checked").each(function(i){
-            openid[i] =openid += $(this).parent('td').next().next().next().text()+',';
+            openid[i] = $(this).parent('td').next().next().next().text();
         });
         var tag_wx_id=$("#tag_wx_id").attr('value');
 

@@ -114,15 +114,12 @@ class TagController extends Controller
     {
         $data = $request->input();//所有数据
         $openid = $data['openid'];//要加入标签的用户openid
-        $openid = trim($openid, ",");//截取两端的逗号
-
-
         $tag_wx_id = $data['tag_wx_id'];//加入那个标签
         $access = getAccessToken();//access_token
         $url = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=$access";//调接口
         $datainfo = [
             "openid_list" => [//粉丝列表
-                $openid = explode(",", $openid)
+                    $openid
             ],
             "tagid" => $tag_wx_id
         ];
