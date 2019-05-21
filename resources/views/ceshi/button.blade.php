@@ -1,13 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>登录</title>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-<a href="/ceshi/auth">点击获取网页授权</a>
+<div class="login">
+    <div class="login_title">
+        <p><img src="/images/img/jinghui.png" style="width:80px;height:80px;margin-right:30px;"/>天津市公安局XX分局xxx平台（系统名称）</p>
+    </div>
+    <div class="login_main">
+        <div class="main_left"></div>
+        <div class="main_right">
+            <div class="right_title">用户登录</div>
+            <form action="">
+                <div class="username">
+                    <img src="/images/img/username.png" alt="">
+                    <input type="text" placeholder="请输入用户名">
+                </div>
+                <div class="password">
+                    <img src="/images/img/password.png" alt="">
+                    <input type="text" placeholder="请输入密码">
+                </div>
+
+                <div class="yes_login"><a href="">登&nbsp;&nbsp;&nbsp;&nbsp;录</a></div>
+                <center><p style="margin-top:20px;font-size:12px;color:#FA6F03;">登录遇到问题，请联系管理员</p></center>
+            </form>
+        </div>
+    </div>
+    <div class="login_footer">
+        <p class="name">版权所有：天津市xxxx分局</p>
+        <p>建议浏览器：IE8及以上、360、谷歌、Firefox v22</p>
+        <p>技术支持：天津市xxxx科技有限公司 &nbsp;&nbsp;联系电话：022-xxxxxx  更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+
+    </div>
+</div>
+
 </body>
 </html>
