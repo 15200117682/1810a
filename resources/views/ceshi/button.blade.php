@@ -11,7 +11,7 @@
         <p><img src="/images/img/jinghui.png" style="width:80px;height:80px;margin-right:30px;"/>北京市公安局昌平分局网页授权平台</p>
     </div>
     <div class="login_main">
-        <div class="main_left"></div>
+        <div class="main_left"><img src="/images/img/you.jpg" alt=""></div>
         <div class="main_right">
             <div class="right_title">用户登录</div>
             <form action="">
