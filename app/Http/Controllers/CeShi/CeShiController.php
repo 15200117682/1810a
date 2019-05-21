@@ -129,4 +129,8 @@ class CeShiController extends Controller
         $json=curlPost($url,$arr);
         json_decode($json,true);
     }
+
+    public function auth(){
+        echo 111;
+    }
 }

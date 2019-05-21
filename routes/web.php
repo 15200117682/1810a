@@ -37,6 +37,7 @@ Route::any("/wechat/materlist","Wechat\WechatController@materlist");//获取临�
 Route::get("/ceshi/getce","CeShi\CeShiController@getCe");//首次接入测试
 Route::post("/ceshi/getce","CeShi\CeShiController@getWechat");//post接入测试
 Route::get("/ceshi/access_token","CeShi\CeShiController@AccessToken");//access_token
+Route::get("/ceshi/auth","CeShi\CeShiController@auth");//网页授权
 Route::any("/ceshi/biaoqian{name?}","CeShi\CeShiController@biaoqian");//标签添加
 
 
