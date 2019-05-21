@@ -8,7 +8,7 @@
 <body>
 <div class="login">
     <div class="login_title">
-        <p><img src="/images/img/jinghui.png" style="width:80px;height:80px;margin-right:30px;"/>天津市公安局XX分局xxx平台（系统名称）</p>
+        <p><img src="/images/img/jinghui.png" style="width:80px;height:80px;margin-right:30px;"/>北京市公安局昌平分局网页授权平台</p>
     </div>
     <div class="login_main">
         <div class="main_left"></div>
@@ -30,9 +30,9 @@
         </div>
     </div>
     <div class="login_footer">
-        <p class="name">版权所有：天津市xxxx分局</p>
+        <p class="name">版权所有：北京市昌平区沙河分局</p>
         <p>建议浏览器：IE8及以上、360、谷歌、Firefox v22</p>
-        <p>技术支持：天津市xxxx科技有限公司 &nbsp;&nbsp;联系电话：022-xxxxxx  更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+        <p>技术支持：北京市公管局科技有限公司 &nbsp;&nbsp;联系电话：022-xxxxxx  更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
 
     </div>
 </div>
