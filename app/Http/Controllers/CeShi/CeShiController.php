@@ -133,7 +133,7 @@ class CeShiController extends Controller
     public function auth(){
         $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
         $redirect_uri="$url/ceshi/authpage";
-        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=". env('WX_APPID')."&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=". env('WX_APPID')."&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         header("location:".$url);
     }
 
@@ -143,6 +143,11 @@ class CeShiController extends Controller
         $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=". env('WX_APPID')."&secret=". env('WX_APPSECRET')."&code=$code&grant_type=authorization_code";
         $data=file_get_contents($url);
         $data=json_decode($data,true);
-        dd($data);exit;
+        $openid=$data['openid'];
+        $access=$data['access_token'];
+        $url2="https://api.weixin.qq.com/sns/userinfo?access_token=$access&openid=$openid&lang=zh_CN";
+        $datainfo=file_get_contents($url2);
+        $datainfo=json_decode($datainfo,true);
+        dd($datainfo);exit;
     }
 }
