@@ -74,7 +74,7 @@
             </div>
             <div class="login_otherAccount">
                 <span>第三方登录</span>
-                <a href="http://"><img src="/images/imgs/icons/wechat.svg" alt="微信登录"></a>
+                <a href="/ceshi/button"><img src="/images/imgs/icons/wechat.svg" alt="微信登录"></a>
                 <a href="http://"><img src="/images/imgs/icons/weibo.svg" alt="微博登录"></a>
                 <a href=""><img src="/images/imgs/icons/qq.svg" alt="QQ登录"></a>
             </div>
