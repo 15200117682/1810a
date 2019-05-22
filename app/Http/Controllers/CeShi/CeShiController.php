@@ -7,6 +7,7 @@ use App\Model\TagModel;
 use App\Model\WxAdminModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
 class CeShiController extends Controller
@@ -167,8 +168,7 @@ class CeShiController extends Controller
         $update=[
             "openid"=>$openid
         ];
-        $res=WxAdminModel::where($where)->update($update);
-        var_dump($res);exit;
+        $res=DB::table("wx_admin")->where($where)->update($update);
         if($res){
             return "绑定成功";
         }
