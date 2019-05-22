@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Redis;
 class CeShiController extends Controller
 {
 
+    public function index(){
+        $arr=[
+            'name'=>"啥添文",
+            'age'=>3,
+            'sex'=>1
+        ];
+        $res=DB::table("name")->insert($arr);
+        var_dump($res);
+    }
+
     //首次接入
     public function getCe(){
         echo $_GET["echostr"];
