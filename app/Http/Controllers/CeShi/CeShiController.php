@@ -156,7 +156,7 @@ class CeShiController extends Controller
 
     public function button(Request $request){
         $data=$request->input();
-        $wx_name=$data['name'];
+        $wx_name=$data['wx_name'];
         $wx_pwd=$data['wx_pwd'];
         var_dump($wx_name);
         dd($wx_pwd);
