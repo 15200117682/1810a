@@ -159,6 +159,7 @@ class CeShiController extends Controller
     public function button(Request $request){
         $openid=session('openid');
         $data=$request->input();
+        var_dump($data);exit;
         $wx_name=$data['wx_name'];
         $wx_pwd=$data['wx_pwd'];
         $where=[
