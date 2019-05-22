@@ -159,7 +159,6 @@ class CeShiController extends Controller
     public function button(Request $request){
         $openid=session('openid');
         $data=$request->input();
-        var_dump($data);exit;
         $wx_name=$data['wx_name'];
         $wx_pwd=$data['wx_pwd'];
         $where=[
@@ -167,7 +166,7 @@ class CeShiController extends Controller
             "wx_pwd"=>$wx_pwd
         ];
         $update=[
-            "openid"=>123
+            "openid"=>$openid
         ];
         $res=WxAdminModel::where($where)->update($update);
         if($res){
