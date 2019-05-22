@@ -31,6 +31,32 @@ function openId($openId){
 }
 
 /**
+ * 网页授权
+ * @return \Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+ */
+function getOpenId(){
+    //取openid
+    $openid = session('openid');
+    if(!empty($openid)){//如果有openid 返回数据
+        return $openid;
+    }
+    $code = request('code');
+    if(!$code){
+        $redirect_uri = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=". env('WX_APPID')."&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+        header("location:".$url);
+    }else{
+        $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=". env('WX_APPID')."&secret=". env('WX_APPSECRET')."&code=$code&grant_type=authorization_code";//接口
+        $data=file_get_contents($url);//使用接口
+        $data=json_decode($data,true);//转数组
+        $openid=$data['openid'];//openid
+        $session=session(['openid'=>$openid]);//session
+
+        return $session;
+    }
+}
+
+/**
  * curl post请求
  * @param $url
  * @param $post_data
