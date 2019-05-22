@@ -157,18 +157,18 @@ class CeShiController extends Controller
     }
 
     public function button(Request $request){
-        $openid=session('openid');
-        $data=$request->input();
-        $wx_name=$data['wx_name'];
-        $wx_pwd=$data['wx_pwd'];
+        $openid=session('openid');//session中的openid
+        $data=$request->input();//传来的值
+        $wx_name=$data['wx_name'];//名字
+        $wx_pwd=$data['wx_pwd'];//密码
         $where=[
             "wx_name"=>$wx_name,
             "wx_pwd"=>$wx_pwd
-        ];
+        ];//条件
         $update=[
             "openid"=>$openid
-        ];
-        $res=WxAdminModel::where($where)->update($update);
+        ];//要修改的数据
+        $res=WxAdminModel::where($where)->update($update);//执行sql
         if($res){
             echo "绑定成功";exit;
         }
