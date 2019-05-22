@@ -43,6 +43,8 @@ Route::any("/ceshi/biaoqian{name?}","CeShi\CeShiController@biaoqian");//标签�
 
 Route::get("/ceshi/index","CeShi\CeShiController@index");
 
+Route::get("/ceshi/mass","CeShi\CeShiController@mass");//9点定时群发消息
+
 
 Route::any("/ceshi/button","CeShi\CeShiController@button");//网页授权
 

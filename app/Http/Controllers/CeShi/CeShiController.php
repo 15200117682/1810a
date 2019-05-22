@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CeShi;
 
 use App\Model\GoodsModel;
 use App\Model\TagModel;
+use App\Model\UsersModel;
 use App\Model\WxAdminModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -181,6 +182,30 @@ class CeShiController extends Controller
         $res=WxAdminModel::where($where)->update($update);//执行sql
         if($res){
             echo "绑定成功";exit;
+        }
+    }
+
+    //每天早上9点给微信公众号群发消息
+    public function mass(){
+        $data=UsersModel::where(['status'=>1])->pluck("openid")->toArray();
+        $access=getAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=$access";
+        $datainfo=[
+            "touser"=>$data,
+            "msgtype"=>"text",
+            "text"=>[
+                "content"=>"每天骚扰一遍"
+            ]
+        ];
+        $datainfo=json_encode($datainfo,JSON_UNESCAPED_UNICODE);
+        $json=curlPost($url,$datainfo);
+        $json=json_decode($json,true);
+        if($json['errcode']==0){
+            $time=time();
+            echo "$time.群发成功";
+        }else{
+            $time=time();
+            echo "$time.群发失败";
         }
     }
 
