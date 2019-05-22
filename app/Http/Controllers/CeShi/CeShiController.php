@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CeShi;
 
 use App\Model\GoodsModel;
 use App\Model\TagModel;
+use App\Model\WxAdminModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
@@ -155,11 +156,21 @@ class CeShiController extends Controller
     }
 
     public function button(Request $request){
+        $openid=session('openid');
         $data=$request->input();
         $wx_name=$data['wx_name'];
         $wx_pwd=$data['wx_pwd'];
-        var_dump($wx_name);
-        dd($wx_pwd);
+        $where=[
+            "wx_name"=>$wx_name,
+            "wx_pwd"=>$wx_pwd
+        ];
+        $update=[
+            "openid"=>$openid
+        ];
+        $res=WxAdminModel::where($where)->update($update);
+        if($res){
+            return "绑定成功";
+        }
     }
 
 }
