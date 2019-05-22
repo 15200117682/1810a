@@ -169,6 +169,9 @@ class CeShiController extends Controller
             "openid"=>$openid
         ];
         $res=DB::table("wx_admin")->where($where)->update($update);
+        var_dump($res);
+        var_dump($update);
+        dd($where);exit;
         if($res){
             echo "绑定成功";exit;
         }
