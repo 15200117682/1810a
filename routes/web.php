@@ -41,7 +41,6 @@ Route::get("/ceshi/auth","CeShi\CeShiController@auth");//网页授权
 Route::get("/ceshi/authpage","CeShi\CeShiController@authpage");//网页授权
 Route::any("/ceshi/biaoqian{name?}","CeShi\CeShiController@biaoqian");//标签添加
 
-Route::get("/ceshi/button","CeShi\CeShiController@button");//微信网页授权
 
 
 

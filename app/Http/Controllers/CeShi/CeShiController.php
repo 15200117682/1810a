@@ -131,27 +131,29 @@ class CeShiController extends Controller
     }
 
     public function auth(){
-        $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
-        $redirect_uri="$url/ceshi/authpage";
-        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=". env('WX_APPID')."&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-        header("location:".$url);
+        $openid=session("openid");
+        if(empty($openid)){
+            $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
+            $redirect_uri="$url/ceshi/authpage";
+            $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=". env('WX_APPID')."&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+            header("location:".$url);
+        }
+        var_dump($openid);exit;
+
+
+        return view("ceshi.button");
     }
 
     //授权跳转页面
     public function authpage(Request $request){
-        $code=$request->input('code');
-        $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=". env('WX_APPID')."&secret=". env('WX_APPSECRET')."&code=$code&grant_type=authorization_code";
-        $data=file_get_contents($url);
-        $data=json_decode($data,true);
-        $openid=$data['openid'];
-        $access=$data['access_token'];
-        $url2="https://api.weixin.qq.com/sns/userinfo?access_token=$access&openid=$openid&lang=zh_CN";
-        $datainfo=file_get_contents($url2);
-        $datainfo=json_decode($datainfo,true);
-        dd($datainfo);exit;
+        $code=$request->input('code');//获取code
+        $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=". env('WX_APPID')."&secret=". env('WX_APPSECRET')."&code=$code&grant_type=authorization_code";//接口
+        $data=file_get_contents($url);//使用接口
+        $data=json_decode($data,true);//转数组
+        $openid=$data['openid'];//openid
+        session(['openid'=>$openid]);//session
+
+        return redirect("/ceshi/auth");
     }
 
-    public function button(){
-        return view("ceshi.button");
-    }
 }
