@@ -167,8 +167,8 @@ class CeShiController extends Controller
         $update=[
             "openid"=>$openid
         ];
-        dd($openid);
         $res=WxAdminModel::where($where)->update($update);
+        var_dump($res);exit;
         if($res){
             return "绑定成功";
         }
