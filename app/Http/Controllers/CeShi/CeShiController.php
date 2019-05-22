@@ -171,7 +171,7 @@ class CeShiController extends Controller
         $res=DB::table("wx_admin")->where($where)->update($update);
         var_dump($res);
         var_dump($update);
-        dd($where);exit;
+        var_dump($where);exit;
         if($res){
             echo "绑定成功";exit;
         }
