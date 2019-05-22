@@ -138,8 +138,6 @@ class CeShiController extends Controller
             $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=". env('WX_APPID')."&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
             header("location:".$url);
         }
-        var_dump($openid);exit;
-
 
         return view("ceshi.button");
     }
@@ -154,6 +152,14 @@ class CeShiController extends Controller
         session(['openid'=>$openid]);//session
 
         return redirect("/ceshi/auth");
+    }
+
+    public function button(Request $request){
+        $data=$request->input();
+        $wx_name=$data['name'];
+        $wx_pwd=$data['wx_pwd'];
+        var_dump($wx_name);
+        dd($wx_pwd);
     }
 
 }
