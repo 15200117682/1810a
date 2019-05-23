@@ -89,6 +89,7 @@ class LoginController extends Controller
     public function wechat(Request $request){
         $id=$request->input("id");
         $openid=getOpenId();
+        echo $id;
         dd($openid);
     }
 
