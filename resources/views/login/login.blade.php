@@ -136,7 +136,7 @@
             success: function (msg) {
                 if(msg.msg==1){
                     alert(msg.font);
-                    window.location.href="/admin/auth/login";
+                    window.location.href="/admin";
                 }else{
                     alert(msg.font);
                 }
