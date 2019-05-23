@@ -11,9 +11,6 @@
 <div class="container">
     <div class="login_body l_clear">
         <div class="login_form l_float">
-            <div class="login_top">
-                <img src="/images/imgs/logo_z.svg" alt="" class="">
-            </div>
             <div class="login_con">
                 <form action="/ceshi/button" method="POST" enctype="multipart/form-data">
                     <div>
