@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Session;
 class LoginController extends Controller
 {
     public function index(){
-        return view("login.login");
+        $id=rand(1000,9999);
+        $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
+        $url="$url/login/wechat?id=$id";
+        return view("login.login",['data'=>$url]);
     }
 
     public function loginadd(Request $request){
@@ -79,13 +82,7 @@ class LoginController extends Controller
         }
     }
 
-    public function click(){
-        $id=rand(1000,9999);
-        $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
-        $url="$url/login/wechat?id=$id";
-        return view("login.login",['data'=>$url]);
-    }
-
+    //扫码登陆
     public function wechat(Request $request){
         $id=$request->input("id");
         $openid=getOpenId();
