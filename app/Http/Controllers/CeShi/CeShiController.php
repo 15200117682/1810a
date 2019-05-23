@@ -169,6 +169,7 @@ class CeShiController extends Controller
 
     public function button(Request $request){
         $openid=getOpenId();
+        var_dump($openid);exit;
         $data=$request->input();//传来的值
         $wx_name=$data['wx_name'];//名字
         $wx_pwd=$data['wx_pwd'];//密码
