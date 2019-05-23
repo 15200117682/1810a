@@ -190,11 +190,12 @@ class CeShiController extends Controller
         $data=UsersModel::where(['status'=>1])->pluck("openid")->toArray();
         $access=getAccessToken();
         $url="https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=$access";
+        $goods=GoodsModel::where(['status'=>1])->orderByRaw("RAND()")->first()->toArray();//随机查询一条数据
         $datainfo=[
             "touser"=>$data,
             "msgtype"=>"text",
             "text"=>[
-                "content"=>"每天骚扰一遍"
+                "content"=>"$goods"
             ]
         ];
         $datainfo=json_encode($datainfo,JSON_UNESCAPED_UNICODE);
