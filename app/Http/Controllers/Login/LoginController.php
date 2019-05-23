@@ -32,7 +32,7 @@ class LoginController extends Controller
         $rand=rand(1000,9999);//随机数字
         $arr=[
             "touser"=>$openid,
-            "template_id"=>"8yqRpzgCg2mXCPZwDsE0sJ5EHtEUveikJV-GVEYPzH0",
+            "template_id"=>"gfUhEMc4E9mbgKyKW8q7he2DPbYRu_jp0hqg6wh1QBI",
             "data"=>[
                 "name"=>[
                     "value"=>$rand,
