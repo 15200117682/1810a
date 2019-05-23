@@ -68,7 +68,7 @@ class LoginController extends Controller
         $json=curlPost($url,$arr);//调用接口
         $json=json_decode($json,true);//转换数组类型
         if($json['errmsg']=="ok"){//成功返回结果
-            Session("code",$rand);
+            session("code",$rand);
             $resInfo=[
                 "msg"=>1,
                 "font"=>"发送验证码成功"
