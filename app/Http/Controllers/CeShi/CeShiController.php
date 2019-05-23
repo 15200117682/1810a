@@ -187,6 +187,7 @@ class CeShiController extends Controller
 
     //每天早上9点给微信公众号群发消息
     public function mass(){
+        echo 1111;exit;
         $data=UsersModel::where(['status'=>1])->pluck("openid")->toArray();
         $access=getAccessToken();
         $url="https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=$access";

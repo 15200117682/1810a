@@ -80,8 +80,7 @@
                 <a href="http://"><img src="/images/imgs/icons/weibo.svg" alt="微博登录"></a>
                 <a href=""><img src="/images/imgs/icons/qq.svg" alt="QQ登录"></a>
             </div>
-            <span>请手机扫码绑定账号</span>
-            <img src="/img/qrcode/qwer.jpg" style="width:100px;height:100px;" alt="">
+
 
         </div>
         <div class="login_ad l_float" id="AdImg">
@@ -89,6 +88,8 @@
         </div>
     </div>
     <div class="footer">
+        <span style="color:red;">请手机扫码绑定账号</span>
+        <img src="/img/qrcode/qwer.jpg" style="width:100px;height:100px;" alt="">
         <p>Copyright © 2013-2018  <a href="#">赫伟创意星空</a></p>
         <a href="#" target="_blank"><img src="/images/imgs/icons/icp_record_filing.svg" alt="工信部备案">蒙ICP备15000557号</a>更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a>
     </div>
