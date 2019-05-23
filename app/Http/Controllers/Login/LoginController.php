@@ -70,7 +70,7 @@ class LoginController extends Controller
         $json=curlPost($url,$arr);//调用接口
         $json=json_decode($json,true);//转换数组类型
         Session::put("code",$rand);
-        var_dump(session("code"));exit;
+        var_dump(Session::get("code"));exit;
         if($json['errmsg']=="ok"){//成功返回结果
             $resInfo=[
                 "msg"=>1,
