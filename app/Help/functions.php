@@ -49,6 +49,7 @@ function getOpenId(){
         $url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=". env('WX_APPID')."&secret=". env('WX_APPSECRET')."&code=$code&grant_type=authorization_code";//接口
         $data=file_get_contents($url);//使用接口
         $data=json_decode($data,true);//转数组
+        var_dump($data);
         $openid=$data['openid'];//openid
         $session=session(['openid'=>$openid]);//session
 

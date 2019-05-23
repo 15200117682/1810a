@@ -87,7 +87,6 @@ class LoginController extends Controller
         $id=$request->input("id");
         $openid=getOpenId();
         var_dump($openid);
-        var_dump($id);
     }
 
 }
