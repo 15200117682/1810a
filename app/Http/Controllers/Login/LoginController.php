@@ -45,7 +45,7 @@ class LoginController extends Controller
         $json=json_decode($json,true);//转换数组类型
         if($json['errmsg']=="ok"){//成功返回结果
             $wx_rand=[
-                'rand'=>$rand
+                'wx_rand'=>$rand
             ];
             $res=WxAdminModel::where(['wx_name'=>$wx_name,'wx_pwd'=>$wx_pwd])->update($wx_rand);//验证码存入库
             if($res){
