@@ -27,6 +27,7 @@ class LoginController extends Controller
             return $arr;
         }
         $code_session=session('code');
+        var_dump($code_session);exit;
         if($code!=$code_session){
             $arr=[
                 "msg"=>2,
