@@ -20,7 +20,7 @@ Route::get("/info",function (){
 
 //登陆页面
 Route::any("/login","Login\LoginController@index");//登陆
-Route::any("/loginadd","Login\LoginController@loginadd");//登陆验证
+Route::any("/login/loginadd","Login\LoginController@loginadd");//登陆验证
 Route::any("/login/code","Login\LoginController@code");//登陆验证
 
 Route::get("/wechat/chat","Wechat\WechatController@getWechat");//首次接入测试

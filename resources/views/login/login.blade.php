@@ -97,6 +97,8 @@
 </body>
 </html>
 <script>
+
+    //发送验证码
     $('#ve_code').click(function () {
         var url="/login/code";
         var wx_name=$("#user_name").val();
@@ -112,6 +114,33 @@
             }
         });
 
+    })
+
+    //登陆验证
+    $("#but").click(function () {
+        var wx_name=$("#user_name").val();
+        var wx_pwd=$("#user_pwd").val();
+        var code=$("#auth_code").val();
+        if(wx_name==""){
+            alert("账号不能为空");
+        }else if(wx_pwd==""){
+            alert("密码不能为空");
+        }else if(code==""){
+            alert("验证码不能为空");
+        }
+        var url="login/loginadd"
+        $.ajax({
+            type: "post",
+            url: url,
+            data:{wx_name:wx_name,wx_pwd:wx_pwd,code:code},
+            success: function (msg) {
+                if(msg.msg==1){
+                    alert(msg.font);
+                }else{
+                    alert(msg.font);
+                }
+            }
+        });
     })
 
 </script>

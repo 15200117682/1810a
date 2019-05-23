@@ -14,7 +14,31 @@ class LoginController extends Controller
 
     public function loginadd(Request $request){
         $data=$request->input();
-        var_dump($data);
+        $name=$data['wx_name'];
+        $wx_pwd=$data['wx_pwd'];
+        $code=$data['code'];
+        $datainfo=WxAdminModel::where(['wx_name'=>$name,'wx_pwd'=>$wx_pwd])->first()->toArray();//查数据
+        if(empty($datainfo)){
+            $arr=[
+                "msg"=>2,
+                "font"=>"请输入正确的账号密码"
+            ];
+            return $arr;
+        }
+        $code_session=session('code');
+        if($code!=$code_session){
+            $arr=[
+                "msg"=>2,
+                "font"=>"验证码不正确"
+            ];
+            return $arr;
+        }else{
+            $arr=[
+                "msg"=>1,
+                "font"=>"身份确认成功"
+            ];
+            return $arr;
+        }
     }
 
     //发送验证码
@@ -44,17 +68,13 @@ class LoginController extends Controller
         $json=curlPost($url,$arr);//调用接口
         $json=json_decode($json,true);//转换数组类型
         if($json['errmsg']=="ok"){//成功返回结果
-            $wx_rand=[
-                'wx_rand'=>$rand
+            Session("code",$rand);
+            $resInfo=[
+                "msg"=>1,
+                "font"=>"发送验证码成功"
             ];
-            $res=WxAdminModel::where(['wx_name'=>$wx_name,'wx_pwd'=>$wx_pwd])->update($wx_rand);//验证码存入库
-            if($res){
-                $resInfo=[
-                    "msg"=>1,
-                    "font"=>"发送验证码成功"
-                ];
-                return $resInfo;
-            }
+            return $resInfo;
+
         }
     }
 }
