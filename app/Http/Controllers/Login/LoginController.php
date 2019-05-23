@@ -75,7 +75,7 @@ class LoginController extends Controller
                 "msg"=>1,
                 "font"=>"发送验证码成功"
             ];
-            return $resInfo;
+             echo json_encode($resInfo,true);
         }
     }
 }
