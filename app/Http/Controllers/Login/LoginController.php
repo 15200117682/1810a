@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Login;
 use App\Model\WxAdminModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -27,7 +26,7 @@ class LoginController extends Controller
             ];
             return $arr;
         }
-        $code_session=Redis::get("code");
+        $code_session=session('code');
         if($code!=$code_session){
             $arr=[
                 "msg"=>2,
@@ -70,8 +69,7 @@ class LoginController extends Controller
         $json=curlPost($url,$arr);//调用接口
         $json=json_decode($json,true);//转换数组类型
         if($json['errmsg']=="ok"){//成功返回结果
-            Redis::get("code",$rand);
-            Redis::expire("code",60);
+            session(["code"=>$rand]);
             $resInfo=[
                 "msg"=>1,
                 "font"=>"发送验证码成功"
