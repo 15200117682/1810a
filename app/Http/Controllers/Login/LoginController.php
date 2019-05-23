@@ -71,11 +71,12 @@ class LoginController extends Controller
         $json=json_decode($json,true);//转换数组类型
         if($json['errmsg']=="ok"){//成功返回结果
             session(["code"=>$rand]);
+            var_dump(session("code"));exit;
             $resInfo=[
                 "msg"=>1,
                 "font"=>"发送验证码成功"
             ];
-             echo json_encode($resInfo,true);
+            //return $resInfo;
         }
     }
 }
