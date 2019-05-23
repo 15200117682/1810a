@@ -52,7 +52,7 @@ function getOpenId(){
         $openid=$data['openid'];//openid
         $session=session(['openid'=>$openid]);//session
 
-        return $session;
+        return $openid;
 
 }
 
