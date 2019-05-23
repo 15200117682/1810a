@@ -22,6 +22,8 @@ Route::get("/info",function (){
 Route::any("/login","Login\LoginController@index");//登陆
 Route::any("/login/loginadd","Login\LoginController@loginadd");//登陆验证
 Route::any("/login/code","Login\LoginController@code");//登陆验证
+Route::any("/login/click","Login\LoginController@click");//登陆验证
+Route::any("/login/wechat","Login\LoginController@wechat");//登陆验证
 
 Route::get("/wechat/chat","Wechat\WechatController@getWechat");//首次接入测试
 Route::post("/wechat/chat","Wechat\WechatController@WXEvent");//post接入测试

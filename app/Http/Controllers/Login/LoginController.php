@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Login;
 use App\Model\WxAdminModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -77,4 +78,19 @@ class LoginController extends Controller
             return $resInfo;
         }
     }
+
+    public function click(){
+        $id=rand(1000,9999);
+        $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
+        $url="$url/login/wechat?id=$id";
+        return view("login.login",['data'=>$url]);
+    }
+
+    public function wechat(Request $request){
+        $id=$request->input("id");
+        $openid=getOpenId();
+        echo $id;
+        dd($openid);
+    }
+
 }

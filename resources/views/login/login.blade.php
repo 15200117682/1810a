@@ -33,7 +33,7 @@
 
                 <div class="login_tags b_clear">
                     <span class="top_tag l_float active" style="cursor:pointer" onClick="PwdLogin()">密码登录</span>
-                    <span class="top_tag r_float" style="cursor:pointer" onClick="QrcodeLogin()">扫码登录</span>
+                    <span class="top_tag r_float" id="click" style="cursor:pointer" onClick="QrcodeLogin()">扫码登录</span>
                 </div>
             </div>
             <div class="login_con">
@@ -69,7 +69,7 @@
             </div>
             <div class="login_con hidden">
                 <div class="qr_code">
-                    <img src="/images/imgs/qr.png" alt="">
+                    <img src="http://qr.liantu.com/api.php?bg=f3f3f3&fg=ff0000&gc=222222&el=l&w=200&m=10&text={{$data}}"/>
                     <p>请使用微信扫码登录<br>仅支持已绑定微信的账户进行快速登录</p>
                 </div>
 
@@ -145,5 +145,6 @@
             }
         });
     })
+
 
 </script>
