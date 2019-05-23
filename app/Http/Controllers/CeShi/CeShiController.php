@@ -191,18 +191,17 @@ class CeShiController extends Controller
         $access=getAccessToken();
         $url="https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=$access";
         $goods=GoodsModel::where(['is_up'=>1])->orderByRaw("RAND()")->first()->toArray();//随机查询一条数据
-        $name=$goods["goods_name"];
+        $goods_name=$goods["goods_name"];
         $datainfo=[
             "touser"=>$data,
             "msgtype"=>"text",
             "text"=>[
-                "content"=>$name."前来报道"
+                "content"=>$goods_name."前来报道"
             ]
         ];
         $datainfo=json_encode($datainfo,JSON_UNESCAPED_UNICODE);
         $json=curlPost($url,$datainfo);
         $json=json_decode($json,true);
-
         if($json['errcode']==0){
             $time=time();
             echo "$time.群发成功";
