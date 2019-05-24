@@ -201,7 +201,19 @@ class ImgController extends Controller
 
         $grid->id('编号');
         $grid->img_name('图片名称');
-        $grid->img_url('图片')->image("$url",100,100);
+        $grid->img_url('图片')->display(function($images){
+            $ext=substr($images,-3);
+            if($ext=='mp3'){
+                return '<audio controls autoplay>
+                            <source src="/'.$images.'">
+                        </audio>';
+            }elseif($ext=='mp4'){
+                return '<video controls autoplay  width=100;height=60>
+                             <source src="/'.$images.'">
+                        </video>';
+            }
+            return "<img height='80' width='80'  src='/".$images." '>";
+        });
         $grid->img_media('media');
         $grid->img_time('存入时间')->display(function(){
             return date("Y-m-d H:i:s");
