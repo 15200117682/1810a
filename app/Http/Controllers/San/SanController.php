@@ -40,8 +40,8 @@ class SanController extends Controller
                     $data=SanModel::orderByRaw("RAND()")->first()->toArray();//查询题目
                     $text=$data['wx_name']."回答A是".$data['wx_a']."or回答B是".$data['wx_b'];//让用户回答问题
                     $arr=[
-                        'id_name'=>$FromUserName,
-                        'id_openid'=>$data['id'],
+                        'id_name'=>$data['id'],
+                        'id_openid'=>$FromUserName,
                         'time'=>time()
                     ];
                     NameModel::insert($arr);
