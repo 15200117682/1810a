@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\San;
 
 use App\Model\EvilModel;
+use App\Model\NameModel;
 use App\Model\SanModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,7 +28,6 @@ class SanController extends Controller
         $MsgType = $obj->MsgType;//获取数据类型
         $Event = $obj->Event;//获取时间类型
         $EventKey=$obj->EventKey;
-        $Content = $obj->Content;//获取文字内容
         if($MsgType=="event"){
             if($Event=="subscribe"){//用户关注
                 $text="回答问题哟！！！";
@@ -39,6 +39,12 @@ class SanController extends Controller
                     //答题  1、去数据库查取一条数据返回
                     $data=SanModel::orderByRaw("RAND()")->first()->toArray();//查询题目
                     $text=$data['wx_name']."回答A是".$data['wx_a']."or回答B是".$data['wx_b'];//让用户回答问题
+                    $arr=[
+                        'id_name'=>$FromUserName,
+                        'id_openid'=>$data['id'],
+                        'id_time'=>time()
+                    ];
+                    NameModel::insertGetId($arr);
                     $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回问题
                     return $xml;
 
@@ -49,6 +55,21 @@ class SanController extends Controller
                     $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回文字信息
                     return $xml;
                 }
+            }
+        }elseif($MsgType=="text"){
+            $Content = $obj->Content;//获取文字内容
+            $data=NameModel::where(["id_openid"=>$FromUserName])->orderBy('id','desc')->first();
+            $wx_cor=SanModel::where(['id'=>$data['id_name']])->pluck("wx_cor")->first();
+            if($Content==$wx_cor){
+                EvilModel::where(['openid'=>$FromUserName])->increment("wx_cor");
+                $text="恭喜，回答正确";
+                $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回文字信息
+                return $xml;
+            }else{
+                EvilModel::where(['openid'=>$FromUserName])->increment("wx_cor_no");
+                $text="对不起，回答错误";
+                $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回文字信息
+                return $xml;
             }
         }
 
