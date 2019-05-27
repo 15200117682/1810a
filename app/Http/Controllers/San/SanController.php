@@ -38,13 +38,11 @@ class SanController extends Controller
                   <Content><![CDATA[$text]]></Content>
                 </xml>";
                 return $xml;
-            }
-        }else if($MsgType=="event"){
-            if($Event=="CLICK"){
+            }elseif($Event=="CLICK"){
                 if($EventKey=="da"){
                     //答题  1、去数据库查取一条数据返回
                     $data=SanModel::orderByRaw("RAND()")->first()->toArray();
-                    $text=$data['wx_name']."。回答A".$data['wx_a']."。回答B".$data['wx_b'];
+                    $text=$data['wx_name']."回答A是".$data['wx_a']."or回答B是".$data['wx_b'];
                     $xml="<xml>
                   <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
                   <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
