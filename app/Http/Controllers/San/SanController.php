@@ -42,9 +42,9 @@ class SanController extends Controller
                     $arr=[
                         'id_name'=>$FromUserName,
                         'id_openid'=>$data['id'],
-                        'id_time'=>time()
+                        'time'=>time()
                     ];
-                    NameModel::insertGetId($arr);
+                    NameModel::insert($arr);
                     $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回问题
                     return $xml;
 
