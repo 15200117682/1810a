@@ -25,6 +25,19 @@ class SanController extends Controller
         $MsgType = $obj->MsgType;//获取数据类型
         $Event = $obj->Event;//获取时间类型
         $Content = $obj->Content;//获取文字内容
+        if($MsgType=="event"){
+            if($Event=="subscribe"){
+                $text="回答问题哟！！！";
+                $xml="<xml>
+                  <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
+                  <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
+                  <CreateTime>".time()."</CreateTime>
+                  <MsgType><![CDATA[text]]></MsgType>
+                  <Content><![CDATA[$text]]></Content>
+                </xml>";
+                return $xml;
+            }
+        }
         echo "SUCCESS";
     }
 }
