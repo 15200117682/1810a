@@ -59,6 +59,6 @@ class SanController extends Controller
                 }
             }
         }
-        echo "SUCCESS";
+
     }
 }
