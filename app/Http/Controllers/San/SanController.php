@@ -44,7 +44,7 @@ class SanController extends Controller
                         'id_openid'=>$FromUserName,
                         'time'=>time()
                     ];
-                    NameModel::insert($arr);
+                    NameModel::insertGetId($arr);
                     $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回问题
                     return $xml;
 
@@ -59,18 +59,33 @@ class SanController extends Controller
         }elseif($MsgType=="text"){
             $Content = $obj->Content;//获取文字内容
             $data=NameModel::where(["id_openid"=>$FromUserName])->orderBy('id','desc')->first();
-            $wx_cor=SanModel::where(['id'=>$data['id_name']])->pluck("wx_cor")->first();
-            if($Content==$wx_cor){
-                EvilModel::where(['openid'=>$FromUserName])->increment("wx_cor");
-                $text="恭喜，回答正确";
-                $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回文字信息
-                return $xml;
-            }else{
-                EvilModel::where(['openid'=>$FromUserName])->increment("wx_cor_no");
-                $text="对不起，回答错误";
+            if($data['pro_da']==""){//没回答问题
+                $wx_cor=SanModel::where(['id'=>$data['id_name']])->pluck("wx_cor")->first();//正确答案
+                if($Content==$wx_cor){
+                    EvilModel::where(['openid'=>$FromUserName])->increment("wx_cor");
+                    $arr=[
+                        'pro_da' =>$Content
+                    ];
+                    NameModel::where(["id_openid"=>$FromUserName])->orderBy('id','desc')->update($arr);
+                    $text="恭喜，回答正确";
+                    $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回文字信息
+                    return $xml;
+                }else{
+                    EvilModel::where(['openid'=>$FromUserName])->increment("wx_cor_no");
+                    $arr=[
+                        'pro_da' =>$Content
+                    ];
+                    NameModel::where(["id_openid"=>$FromUserName])->orderBy('id','desc')->update($arr);
+                    $text="对不起，回答错误";
+                    $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回文字信息
+                    return $xml;
+                }
+            }else{//回答问题让他重新提问
+                $text="问题已回答，请重新提问";
                 $xml=$this->returnText($FromUserName,$ToUserName,$text);//返回文字信息
                 return $xml;
             }
+
         }
 
     }
