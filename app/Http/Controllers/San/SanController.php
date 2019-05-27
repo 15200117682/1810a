@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\San;
 
+use App\Model\EvilModel;
 use App\Model\SanModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -53,7 +54,16 @@ class SanController extends Controller
                     return $xml;
                 }elseif($EventKey=="cheng"){
                     //查询FormUserName的成绩单
-                    echo 111;
+                    $data=EvilModel::where(['openid'=>$FromUserName])->first();
+                    $text="您好".$data['openid']."。"."您回答正确".$data['wx_cor']."。"."回答错误".$data['wx_cor_no'];
+                    $xml="<xml>
+                  <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
+                  <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
+                  <CreateTime>".time()."</CreateTime>
+                  <MsgType><![CDATA[text]]></MsgType>
+                  <Content><![CDATA[$text]]></Content>
+                </xml>";
+                    return $xml;
                 }
             }
         }
