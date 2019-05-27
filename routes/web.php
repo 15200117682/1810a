@@ -50,8 +50,12 @@ Route::get("/ceshi/index","CeShi\CeShiController@index");
 
 Route::get("/ceshi/mass","CeShi\CeShiController@mass");//9点定时群发消息
 
-
 Route::any("/ceshi/button","CeShi\CeShiController@button");//网页授权
+
+
+//第三周测试
+Route::get("/san/getsan","San\SanController@getSan");//首次接入测试
+Route::post("/san/getsan","San\SanController@getEvent");//post接入测试
 
 
 
