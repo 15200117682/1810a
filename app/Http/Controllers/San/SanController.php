@@ -54,8 +54,9 @@ class SanController extends Controller
                     return $xml;
                 }elseif($EventKey=="cheng"){
                     //查询FormUserName的成绩单
+                    $nickname=openId($FromUserName);//获取用户信息
                     $data=EvilModel::where(['openid'=>$FromUserName])->first();
-                    $text="您好".$data['openid']."。"."您回答正确".$data['wx_cor']."。"."回答错误".$data['wx_cor_no'];
+                    $text="您好".$nickname['nickname']."。"."您回答正确".$data['wx_cor']."。"."回答错误".$data['wx_cor_no'];
                     $xml="<xml>
                   <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
                   <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
