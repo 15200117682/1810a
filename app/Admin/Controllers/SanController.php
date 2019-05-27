@@ -115,7 +115,9 @@ class SanController extends Controller
         $grid->wx_a('答案A');
         $grid->wx_b('答案B');
         $grid->wx_cor('正确答案');
-        $grid->wx_time('添加时间');
+        $grid->wx_time('存入时间')->display(function(){
+            return date("Y-m-d H:i:s");
+        });
 
         return $grid;
     }
