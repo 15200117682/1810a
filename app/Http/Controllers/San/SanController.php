@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\San;
 
+use App\Model\SanModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -24,6 +25,7 @@ class SanController extends Controller
         $CreateTime = $obj->CreateTime;//获取时间
         $MsgType = $obj->MsgType;//获取数据类型
         $Event = $obj->Event;//获取时间类型
+        $EventKey=$obj->EventKey;
         $Content = $obj->Content;//获取文字内容
         if($MsgType=="event"){
             if($Event=="subscribe"){
@@ -36,6 +38,25 @@ class SanController extends Controller
                   <Content><![CDATA[$text]]></Content>
                 </xml>";
                 return $xml;
+            }
+        }else if($MsgType=="event"){
+            if($Event=="CLICK"){
+                if($EventKey=="da"){
+                    //答题  1、去数据库查取一条数据返回
+                    $data=SanModel::orderByRaw("RAND()")->first()->toArray();
+                    $text=$data['wx_name']."。回答A".$data['wx_a']."。回答B".$data['wx_b'];
+                    $xml="<xml>
+                  <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
+                  <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
+                  <CreateTime>".time()."</CreateTime>
+                  <MsgType><![CDATA[text]]></MsgType>
+                  <Content><![CDATA[$text]]></Content>
+                </xml>";
+                    return $xml;
+                }elseif($EventKey=="cheng"){
+                    //查询FormUserName的成绩单
+                    echo 111;
+                }
             }
         }
         echo "SUCCESS";
