@@ -43,5 +43,10 @@ Route::group([
     $router->get('/tag_del', 'TagController@tag_del');//标签信息
     $router->resource('/taglist', TagController::class);//渠道管理
 
+    //第三周测试题
+    $router->get('/san/sanadd', 'SanController@sanadd');//添加题目
+    $router->any('/san/sanjia', 'SanController@sanjia');//题目入库
+    $router->resource('/san/sanlist', SanController::class);//第三周
+
 
 });
