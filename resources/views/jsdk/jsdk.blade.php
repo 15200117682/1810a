@@ -15,7 +15,7 @@
 </html>
 <script>
     wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        //debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: '{{$appId}}', // 必填，公众号的唯一标识
         timestamp: '{{$timestamp}}', // 必填，生成签名的时间戳
         nonceStr: '{{$nonceStr}}', // 必填，生成签名的随机串
@@ -26,7 +26,7 @@
         wx.updateAppMessageShareData({
             title: '缘分', // 分享标题
             desc: '淮竹本是妾，霸业本无妻', // 分享描述
-            link: 'http://yuan.qiong001.com/admin', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            link: 'http://yuan.qiong001.com/login', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: 'http://yuan.qiong001.com/images/2019-05-14/31df49e305ba04046be0753b67201e70.jpg', // 分享图标
             success: function () {
                 // 设置成功
