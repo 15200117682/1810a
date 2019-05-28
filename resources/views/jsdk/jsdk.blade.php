@@ -27,7 +27,7 @@
             title: '缘分', // 分享标题
             desc: '淮竹本是妾，霸业本无妻', // 分享描述
             link: 'http://yuan.qiong001.com/admin', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: 'https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwj34Py9373iAhWWMd4KHWi5BWEQjRx6BAgBEAU&url=https%253A%252F%252Fwww.zhihu.com%252Fquestion%252F24995521&psig=AOvVaw2JL2kwTQCgZCEooaHDcrph&ust=1559116438995940', // 分享图标
+            imgUrl: 'http://yuan.qiong001.com/images/2019-05-14/31df49e305ba04046be0753b67201e70.jpg', // 分享图标
             success: function () {
                 // 设置成功
             }

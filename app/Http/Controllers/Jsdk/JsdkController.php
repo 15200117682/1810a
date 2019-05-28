@@ -20,10 +20,6 @@ class JsdkController extends Controller
         // 这里参数的顺序要按照 key 值 ASCII 码升序排序
         $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
         $signature = sha1($string);
-        var_dump($appId);
-        var_dump($timestamp);
-        var_dump($nonceStr);
-        var_dump($signature);exit;
 
         return view("jsdk.jsdk",[
             'appId'=>$appId,
