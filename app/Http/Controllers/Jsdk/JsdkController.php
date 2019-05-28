@@ -15,7 +15,7 @@ class JsdkController extends Controller
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";//动态获取访问地址
         $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $timestamp = time();
-        $appId=.env("WX_APPID");
+        $appId="wx3b19791119b8d948";
         $nonceStr =createNonceStr();//随机数
         // 这里参数的顺序要按照 key 值 ASCII 码升序排序
         $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
