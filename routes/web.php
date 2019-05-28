@@ -58,6 +58,10 @@ Route::get("/san/getsan","San\SanController@getSan");//首次接入测试
 Route::post("/san/getsan","San\SanController@getEvent");//post接入测试
 
 
+//jssdk
+Route::any("/jsdk","Jsdk\JsdkController@jsdk");//jssdk
+
+
 
 
 

@@ -56,6 +56,24 @@ function getOpenId(){
 
 }
 
+function getJsapi_ticket(){
+    $key = 'ticket';
+    $ticket = Redis::get($key);
+    if ($ticket) {
+        //有缓存返回缓存数据
+    } else {
+        $access = getAccessToken();
+        //无缓存调用接口获取access_token
+        $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$access&type=jsapi";//调接口
+        $response = file_get_contents($url);
+        $arr = json_decode($response, true);//转换为数组
+        Redis::set($key, $arr['ticket']);// 存缓存
+        Redis::expire($key, 3600);
+        $ticket = $arr['ticket'];
+    }
+    return $ticket;
+}
+
 /**
  * curl post请求
  * @param $url
@@ -82,4 +100,15 @@ function curlPost($url,$post_data)
     curl_close($curl);
     //显示获得的数据
     return $data;
+}
+
+
+//jssdk获取16位随机数
+function createNonceStr($length = 16) {
+    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    $str = "";
+    for ($i = 0; $i < $length; $i++) {
+        $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+    }
+    return $str;
 }
