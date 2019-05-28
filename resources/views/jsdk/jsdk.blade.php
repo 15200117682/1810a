@@ -20,6 +20,17 @@
         timestamp: '{{$timestamp}}', // 必填，生成签名的时间戳
         nonceStr: '{{$nonceStr}}', // 必填，生成签名的随机串
         signature: '{{$signature}}',// 必填，签名
-        jsApiList: [] // 必填，需要使用的JS接口列表
+        jsApiList: ["updateAppMessageShareData"] // 必填，需要使用的JS接口列表
+    });
+    wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+        wx.updateAppMessageShareData({
+            title: '缘分', // 分享标题
+            desc: '淮竹本是妾，霸业本无妻', // 分享描述
+            link: 'http://yuan.qiong001.com/admin', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: 'https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwj34Py9373iAhWWMd4KHWi5BWEQjRx6BAgBEAU&url=https%253A%252F%252Fwww.zhihu.com%252Fquestion%252F24995521&psig=AOvVaw2JL2kwTQCgZCEooaHDcrph&ust=1559116438995940', // 分享图标
+            success: function () {
+                // 设置成功
+            }
+        })
     });
 </script>
