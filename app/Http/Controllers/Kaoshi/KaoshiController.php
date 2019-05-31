@@ -40,12 +40,19 @@ class KaoshiController extends Controller
                     if($res){
                         //入库成功，得出结果
                         $text="点击了一次哟";
-                        $this->ReturnText($FromUserName,$ToUserName,$text);
+                        $xml=$this->ReturnText($FromUserName,$ToUserName,$text);
+                        return $xml;
                     }
                 }
             }elseif($Event=="VIEW"){
-                $EventKey = $obj->EventKey;//通过渠道关注返回的key值
+                $EventKey = $obj->EventKey;
                 MenuModel::where(['menu_key'=>$EventKey])->increment('menu_dian');
+            }elseif($Event=="pic_weixin"){
+                $EventKey=$obj->EventKey;
+                if($EventKey=="weixin"){
+                    $EventKey = $obj->EventKey;//通过渠道关注返回的key值
+                    MenuModel::where(['menu_key'=>$EventKey])->increment('menu_dian');
+                }
             }
         }
 
