@@ -48,5 +48,10 @@ Route::group([
     $router->any('/san/sanjia', 'SanController@sanjia');//题目入库
     $router->resource('/san/sanlist', SanController::class);//第三周
 
+    //考试
+    $router->get('/kaoshi/kaoadd', 'KaoshiController@kaoadd');//添加关键字页面
+    $router->post('/kaoshi/kaomedo', 'KaoshiController@kaomedo');//添加关键字
+    $router->resource('/kaoshi/kaolist', KaoshiController::class);//第三周
+
 
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Kaoshi;
 
+use App\Model\KaoshiModel;
 use App\Model\MenuModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -54,6 +55,21 @@ class KaoshiController extends Controller
                     MenuModel::where(['menu_key'=>$EventKey])->increment('menu_dian');
                 }
             }
+        }elseif($MsgType=="text"){
+            $Content=$obj->Content;//用户发送的文字
+            $data=KaoshiModel::where(['name'=>$Content])->first();
+            $data=json_decode($data,true);
+            $media_id=$data['media_id'];
+            $xml="<xml>
+  <ToUserName><![CDATA[".$FromUserName."]]></ToUserName>
+  <FromUserName><![CDATA[".$ToUserName."]]></FromUserName>
+  <CreateTime>".time()."</CreateTime>
+  <MsgType><![CDATA[image]]></MsgType>
+  <Image>
+    <MediaId><![CDATA[$media_id]]></MediaId>
+  </Image>
+</xml>";
+            return $xml;
         }
 
     }
