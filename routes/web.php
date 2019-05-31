@@ -60,6 +60,14 @@ Route::post("/san/getsan","San\SanController@getEvent");//post接入测试
 
 //jssdk
 Route::any("/jsdk","Jsdk\JsdkController@jsdk");//jssdk
+Route::any("/pay","Jsdk\JsdkController@pay");//jssdk
+Route::any("/paycode","Jsdk\JsdkController@paycode");//jssdk
+
+
+//考试
+Route::get("/kaoshi/getchat","Kaoshi\KaoshiController@getWechat");//首次接入
+Route::post("/kaoshi/getchat","Kaoshi\KaoshiController@WXEvent");//post接入测试
+
 
 
 
