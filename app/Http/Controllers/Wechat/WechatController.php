@@ -264,7 +264,7 @@ class WechatController extends Controller
         }//调用接口删除菜单
         $url="https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access";//调接口
         $arr=MenuModel::where(['p_id'=>0])->get()->toArray();//查询一级菜单
-        $typeArr = ['click'=>'key','view'=>'url'];//数组类型
+        $typeArr = ['click'=>'key','view'=>'url','pic_weixin'=>'key'];//数组类型
         $data=[];//定义空数组
         foreach($arr as $key=>$value){
             if(empty($value['menu_type'])&&empty($value['menu_key'])){//有二级菜单的

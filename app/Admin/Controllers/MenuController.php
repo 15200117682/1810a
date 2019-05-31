@@ -148,6 +148,7 @@ class MenuController extends Controller
         $grid->menu_type('菜单类型');
         $grid->menu_key('菜单key');
         $grid->p_id('所属父类');
+        $grid->menu_dian('菜单被点击的次数');
 
         return $grid;
     }
